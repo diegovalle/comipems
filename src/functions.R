@@ -50,3 +50,30 @@ addSave <- function(p, filename, width = 9.60, height = 6.00,
                     text = "Data Source: Gaceta de Resultados COMIPEMS 2013") {
   saveChart(addSource(p, text = text), filename, width, height)
 }
+
+createLineChart <- function(formula, data,
+                            ytext,
+                            title.text) {
+  formula = as.formula(formula)
+  level.enlc <- as.character(terms(formula)[[2]])
+  r.bu <- rPlot(formula, data = data, type = "point",
+                tooltip="function(item){return item.name +'\n'}",
+                title = "Enlace")
+  r.bu$guides(x = list(title = "95th percentile COMIPEMS score",
+                min = min(data$score)-1,
+                max = max(data$score)+1),
+              y = list(title = ytext,
+                min = min(data[[level.enlc]])-2,
+                max = max(data[[level.enlc]])+2))
+  r.bu$addParams(title = title.text)
+  
+  enlace.loess <- data.frame(score = data$score,
+                             bu = predict(loess(formula, data = data)))
+  names(enlace.loess) <- c("score", level.enlc)
+  r.bu$layer(data = enlace.loess, type = 'line', 
+             color = list(const = 'black'), copy_layer = TRUE, tooltip = NULL,
+             size = list(const = 4))
+  r.bu$set(width = 600)
+  ## r.bu$set(padding = list(top = 0, left = 0, bottom = 0, right = 150)) 
+  return(r.bu)
+}
