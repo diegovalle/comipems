@@ -1,7 +1,13 @@
+## Read comipems from 2011
+
 comi11 <- read.csv("data/comipems2011.csv.bz2", na.strings = "-0")
+
+## Latitude and longitude data from mapas.comipems.org
+## see the file in scrape-map to see how it was obtained
 latlong <- read.csv("data/latlong.csv", na.strings=c("-", ""),
                     colClasses = c("character", "numeric", "numeric"))
 schools <- read.csv("data/school-list.csv")
+## Data merging the schoolid used by comipems and the cct used by enlace
 codes <- read.csv("data/codes.csv", na.strings = "")
 
 codes <- merge(codes, schools[, c("schoolid", "Domicilio",
@@ -98,7 +104,8 @@ comi13$state <- mapvalues(comi13$statecode, c(9, 15),
 
 comi13.cct <- join(comi13,
                       unique(na.omit(codes[, c("schoolid", "Type", "CCT")])))
-              
+
+## Test that the data matches the COMIPEMS website
 ## http://comipems.org.mx/dtsestadisticos.php
 test_that("Promedio del número de aciertos obtenido en el examen por la totalidad de los sustentantes:",
           expect_that(round(mean(comi13$score, na.rm = TRUE)), equals(71)))

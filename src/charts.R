@@ -33,6 +33,7 @@ p <- ggplot(subset(comi.median, schoolid %in% top10),
              override.aes = list(alpha = 1)))
 addSave(p, "top20.png", width = 13.00)
 
+## How does the score distribution look like
 p <- ggplot(comi11, aes(score, fill = "2011")) +
   geom_histogram(binwidth = 1, alpha = .5) +
   geom_histogram(data = comi13, aes(score, fill = "2013"),
@@ -44,6 +45,7 @@ p <- ggplot(comi11, aes(score, fill = "2011")) +
 addSave(p, "histogram.png",
         text = "Data Source: Gaceta de Resultados COMIPEMS 2011 and 2013")
 
+## Histograms by modalidad
 p <- ggplot(comi13[!is.na(comi13$modalidad),], aes(score)) +
   geom_histogram(binwidth = 1, alpha = .5) +
   facet_wrap(~ modalidad, ncol =  1) +
@@ -56,11 +58,13 @@ p <- ggplot(comi13[!is.na(comi13$statecode),], aes(score)) +
   labs(title = "Histograms of COMIPEMS scores, by state where the school of admittance is located")
 addSave(p, "histogram-state.png")
 
-
+## Histograms by university system
+##Find out if the high school is run by the UNAM or Poli
 comi13$type <- NA
 comi13$type[comi13$schoolid %in% 600:699] <- "UNAM"
 comi13$type[comi13$schoolid %in% 500:599] <- "IPN"
 cch <- subset(comi13, type %in% c("UNAM", "IPN"))
+## These are the CCHs which are part of the UNAM
 cch$cch <- ifelse(cch$schoolid %in% c(602,604,607,609,615), "cch", "prepa")
 cch$cch <- str_c(cch$cch, cch$type)
 other <- subset(comi13, !type %in% c("UNAM", "IPN"))
@@ -100,10 +104,35 @@ ggplot(cch,
        aes(score, group = type, fill = type)) +
   geom_histogram(alpha = .8, binwidth = 1)
 
+## How has the minimum score evolved since 2010
+comi13$type2 <- comi13$type
+comi13$type2[str_detect(comi13$name, "PREPARATORIA OFICIAL")] <- "Prepa Oficial"
+comi13$type[is.na(comi13$type2)] <- "Other"
+mins <- ddply(comi13, .(schoolid), summarise,
+              min10 = minscore2010[1],
+              min11 = minscore2011[1],
+              min12 = minscore2012[1],
+              min13 = minscore2013[1],
+              state = state[1],
+              type = type2[1],
+              name = name[1])
+mins <- melt(mins, id = c("schoolid", "state", "type", "name"))
+mins$variable <- str_replace(mins$variable, "min", "20")
 
+p <- ggplot(mins, aes(variable, value,
+                 group = schoolid, color = type)) +
+  geom_line(alpha = .8) +
+  labs(title = "Trends in minimum score, by school") +
+  xlab("year") +
+  ylab("minimum score")+
+  guides(color = guide_legend("system",
+           override.aes = list(alpha = 1))) +
+  scale_color_manual(breaks = c("UNAM", "IPN", "Other", "Prepa Oficial"),
+                     labels = c("UNAM", "IPN", "Other", "Prepa Oficial"),
+                     values = c("#842521", "gray","#1b3665", "#e6ab2b" ))
+addSave(p, "trends.png")  
 
-
-
+## Plot ENLACE ~ COMIPEMS
 enlace$INSUFICIENTE.1 <- as.numeric(as.character(enlace$INSUFICIENTE.1))
 enlace$ELEMENTAL.1 <- as.numeric(as.character(enlace$ELEMENTAL.1))
 enlace$BUENO.1 <- as.numeric(as.character(enlace$BUENO.1))
@@ -118,7 +147,8 @@ enlace.sp <- ddply(enlace, .(CLAVE.DE.LA.ESCUELA), summarise,
                    name = SchoolName[1])
 
 
-
+## The 95th percentile seems like a good choice since so few
+## students score 'good' or 'excellent' in ENLACE
 comi.quantile <- ddply(na.omit(comi13.cct), .(CCT), summarise,
       score = quantile(score, .95))
 
@@ -159,9 +189,9 @@ p <- ggplot(enlace.df.12,
                      values = c("#00a195", "#822422"))
 addSave(p, "top-enlace-df.png", width = 13.00,
         text = "Data Source: Resultado oficial ENLACE 2012 www.enlace.sep.gob.mx")
+ggsave(plot = p, "file.png", type = "cairo-png", w = 9.6, h = 6, dpi = 100)
 
-
-
+## Some dirichlet regressions
 dv <- DR_data(enlace.sp[,c("ins", "ele", "bu", "ex")], trafo = TRUE)
 reg <- DirichReg(dv ~ score, data = enlace.sp)
 pred <- as.data.frame(predict(reg))
@@ -180,9 +210,6 @@ ggplot(pred, aes(pred.bu, bu)) +
 
 ggplot(pred, aes(pred.ex, ex)) +
   geom_point()
-
-
-
 
 
 

@@ -2,18 +2,21 @@
 <meta charset = 'utf-8'>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Map of COMIPEMS Scores</title>
     <link rel='stylesheet' href='http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css'>
-    
     <script src='http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js' type='text/javascript'></script>
     <script src='https://rawgithub.com/leaflet-extras/leaflet-providers/gh-pages/leaflet-providers.js' type='text/javascript'></script>
     <script type="text/javascript" src="http://www.diegovalle.net/maps/mxc/js/chroma.min.js"></script>
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js"></script>
     <style>
-    body, html {
-  height: 100%;
-  width: 100%;
-}
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    html, body, #map {
+        height: 100%;
+    }
     .rChart {
       display: block;
       margin-left: auto; 
@@ -47,7 +50,7 @@ var getColor = function(value) {
 "height":    600,
 "urlTemplate": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
 "layerOpts": {
- "attribution": "Map data<a href=\"http://openstreetmap.org\">OpenStreetMap</a>\n         contributors, Imagery<a href=\"http://mapbox.com\">MapBox</a>" 
+ "attribution": "Map data<a href=\"http://openstreetmap.org\">OpenStreetMap</a>\n         contributors" 
 },
 "provider": "Stamen.TonerLite",
 "center": [  19.45,  -99.1 ],

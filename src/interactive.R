@@ -49,3 +49,10 @@ createLineChart("ex ~ score", enlace.sp,
                 "percent who scored 'excellent' in ENLACE",
                 "ENLACE 2010 versus COMIPEMS 2013, by school ('excellent' in ENLACE - Math)")$save("html/enlace-excelente.html",                                                        cdn = TRUE)
 
+
+## r.bu <- rPlot(value ~ variable , group = "schoolid",
+##               data = mins, type = "line",
+##               tooltip="function(item){return item.name +'\n'}",
+##               title = "Enlace",
+##               color = "schoolid")
+## r.bu
