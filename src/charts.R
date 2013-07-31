@@ -189,7 +189,19 @@ p <- ggplot(enlace.df.12,
                      values = c("#00a195", "#822422"))
 addSave(p, "top-enlace-df.png", width = 13.00,
         text = "Data Source: Resultado oficial ENLACE 2012 www.enlace.sep.gob.mx")
-ggsave(plot = p, "file.png", type = "cairo-png", w = 9.6, h = 6, dpi = 100)
+
+pisa <- data.frame(score = c(453, 419),
+                   se = c(3.8, 1.8),
+                   country = c("Hispanics\nin the US", "Mexico"))
+p <- ggplot(pisa, aes(country, score, color = country)) +
+  geom_errorbar(aes(ymin = score - se, ymax = score + se), width = .05) +
+  geom_point(size = 3) +
+  coord_flip() +
+  ylab("PISA math score 2009") +
+  scale_color_manual(values = c("blue", "darkgreen"), guide=FALSE) +
+  labs(title = "Hispanics score 0.34 standard deviations above Mexicans in the PISA math test")
+addSave(p, "pisa.png", width = 8, height = 5,
+        text = "Source: OECD, Program for International Student Assessment (PISA), 2009")
 
 ## Some dirichlet regressions
 dv <- DR_data(enlace.sp[,c("ins", "ele", "bu", "ex")], trafo = TRUE)
