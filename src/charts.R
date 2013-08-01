@@ -130,7 +130,8 @@ p <- ggplot(mins, aes(variable, value,
   scale_color_manual(breaks = c("UNAM", "IPN", "Other", "Prepa Oficial"),
                      labels = c("UNAM", "IPN", "Other", "Prepa Oficial"),
                      values = c("#842521", "gray","#1b3665", "#e6ab2b" ))
-addSave(p, "trends.png")  
+addSave(p, "trends.png",
+        text = "Data Source: http://mapas.comipems.org.mx/")  
 
 ## Plot ENLACE ~ COMIPEMS
 enlace$INSUFICIENTE.1 <- as.numeric(as.character(enlace$INSUFICIENTE.1))
