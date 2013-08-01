@@ -18,23 +18,29 @@ leaflet <- Leaflet$new()
 leaflet$tileLayer(provider = 'Stamen.TonerLite')
 leaflet$set(width = 800, height = 600)
 leaflet$setView(c(19.45, -99.1), zoom = 11)
-## leaflet$circle(c(19.51189, -99.19738))
+## Check the map.html file in the html directory
+## for the definition of scaleSize and getColor
+## and some css that's necessary
 leaflet$geoJson(toGeoJSON2(as.list(as.data.frame(t(na.omit(school_map)))), lon ="long", lat = "lat"),
-             onEachFeature = '#! function(feature, layer){
-      layer.bindPopup(feature.properties.popup)
-    } !#',
+             onEachFeature = "#! function(feature, layer){
+      layer.bindPopup('<b>'+feature.properties[3]+'</b><br>'+'median score:'+feature.properties[1])
+    } !#",
              pointToLayer =  "#! function(feature, latlng){
       return L.circleMarker(latlng, {
-        radius: feature.properties[2]/200,
+        radius: scaleSize(feature.properties[2]),
         fillColor: getColor(feature.properties[1]),    
         color: '#000',
         weight: 1,
         fillOpacity: 0.8
       })
     } !#")
-##map3$enablePopover(TRUE)
-##map3$print("comipems.map")
-## map3$save("map.html", cdn = TRUE)
+
+
+leaflet$legend(position = "bottomright", color = brewer.pal(9, "RdYlBu"),
+               labels = sort(unique(cut(school_map$median_score, 8))))
+leaflet
+##leaflet$print("comipems.map")
+leaflet$save(file.path("html", "temp-map.html"), cdn = TRUE)
 
 
 
