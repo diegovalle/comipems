@@ -3,13 +3,27 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Map of COMIPEMS Scores</title>
+<title>Map of COMIPEMS Scores in Mexico City (Metro)</title>
     <link rel='stylesheet' href='http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css'>
     <script src='http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js' type='text/javascript'></script>
     <script src='https://rawgithub.com/leaflet-extras/leaflet-providers/gh-pages/leaflet-providers.js' type='text/javascript'></script>
     <script type="text/javascript" src="http://www.diegovalle.net/maps/mxc/js/chroma.min.js"></script>
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js"></script>
     <style>
+    h3 {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+table {
+	width: 100%;
+
+	text-align: left; }
+thead {
+	font-weight: bold;width:100%;
+	background-color: #222;
+        color:white; }
+td,th {
+	padding: 4px 5px; }
     body {
         padding: 0;
         margin: 0;
@@ -23,7 +37,34 @@
       margin-right: auto;
       width: 100%;
       height: 100%;
+    }
+    .info {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+    }
+    .info h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+    
+    .legend {
+        line-height: 18px;
+        color: #555;
+    }
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
     }  
+@media only screen and (max-device-width: 480px) {
+.info{visibility:hidden}
+	}
     </style>
     
   </head>
@@ -31,15 +72,15 @@
     <div id='comipems.map' class='rChart leaflet'></div>  
     
     <script>
-var scale = d3.scale.sqrt()
+var scaleSize = d3.scale.sqrt()
                      .domain([6, 4102])
-                     .range([3, 20]);;
-var YlOrRd = ["#D73027", "#F46D43", "#FDAE61", "#FEE090", "#FFFFBF", "#E0F3F8", "#ABD9E9",
+                     .range([3, 20]);
+var RdYlBu= ["#D73027", "#F46D43", "#FDAE61", "#FEE090", "#FFFFBF", "#E0F3F8", "#ABD9E9",
  "#74ADD1", "#4575B4"];
 var createScale = function(colors, domain, numcol){
     return chroma.scale(colors).domain(domain, numcol);
 };
-var scaleScore = createScale(YlOrRd, [114,70, 40.5], 9);
+var scaleScore = createScale(RdYlBu, [114,70, 40.5], 9);
 var getColor = function(value) {
     return scaleScore(value);
 };
@@ -62,7 +103,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.197, 19.512 ] 
 },
-"properties": [ "1000", " 68.0", "3701", "PLANTEL 1, EL ROSARIO" ] 
+"properties": [ "1000", " 68", "3701", "PLANTEL 1, EL ROSARIO" ] 
 },
 {
  "type": "Feature",
@@ -70,7 +111,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.075, 19.412 ] 
 },
-"properties": [ "10000", " 64.0", "2258", "PLANTEL 10, AEROPUERTO" ] 
+"properties": [ "10000", " 64", "2258", "PLANTEL 10, AEROPUERTO" ] 
 },
 {
  "type": "Feature",
@@ -78,7 +119,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.217,  19.36 ] 
 },
-"properties": [ "101311", " 61.0", " 161", "CONALEP ÁLVARO OBREGÓN I" ] 
+"properties": [ "101311", " 61", " 161", "CONALEP ÁLVARO OBREGÓN I" ] 
 },
 {
  "type": "Feature",
@@ -86,7 +127,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.217, 19.361 ] 
 },
-"properties": [ "101314", " 57.0", " 265", "CONALEP ÁLVARO OBREGÓN I" ] 
+"properties": [ "101314", " 57", " 265", "CONALEP ÁLVARO OBREGÓN I" ] 
 },
 {
  "type": "Feature",
@@ -94,7 +135,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.217, 19.361 ] 
 },
-"properties": [ "101328", " 45.0", " 105", "CONALEP ÁLVARO OBREGÓN I" ] 
+"properties": [ "101328", " 45", " 105", "CONALEP ÁLVARO OBREGÓN I" ] 
 },
 {
  "type": "Feature",
@@ -102,7 +143,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.217, 19.361 ] 
 },
-"properties": [ "101337", " 49.0", " 103", "CONALEP ÁLVARO OBREGÓN I" ] 
+"properties": [ "101337", " 49", " 103", "CONALEP ÁLVARO OBREGÓN I" ] 
 },
 {
  "type": "Feature",
@@ -110,7 +151,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.214, 19.354 ] 
 },
-"properties": [ "102303", " 48.0", " 283", "CONALEP ÁLVARO OBREGÓN II" ] 
+"properties": [ "102303", " 48", " 283", "CONALEP ÁLVARO OBREGÓN II" ] 
 },
 {
  "type": "Feature",
@@ -118,7 +159,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.214, 19.354 ] 
 },
-"properties": [ "102306", " 48.0", " 237", "CONALEP ÁLVARO OBREGÓN II" ] 
+"properties": [ "102306", " 48", " 237", "CONALEP ÁLVARO OBREGÓN II" ] 
 },
 {
  "type": "Feature",
@@ -126,7 +167,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.214, 19.354 ] 
 },
-"properties": [ "102316", " 57.0", " 373", "CONALEP ÁLVARO OBREGÓN II" ] 
+"properties": [ "102316", " 57", " 373", "CONALEP ÁLVARO OBREGÓN II" ] 
 },
 {
  "type": "Feature",
@@ -134,7 +175,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.176, 19.487 ] 
 },
-"properties": [ "103301", " 64.0", " 111", "CONALEP AZCAPOTZALCO" ] 
+"properties": [ "103301", " 64", " 111", "CONALEP AZCAPOTZALCO" ] 
 },
 {
  "type": "Feature",
@@ -142,7 +183,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.176, 19.488 ] 
 },
-"properties": [ "103304", " 69.0", "  81", "CONALEP AZCAPOTZALCO" ] 
+"properties": [ "103304", " 69", "  81", "CONALEP AZCAPOTZALCO" ] 
 },
 {
  "type": "Feature",
@@ -150,7 +191,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.176, 19.488 ] 
 },
-"properties": [ "103333", " 64.0", "  42", "CONALEP AZCAPOTZALCO" ] 
+"properties": [ "103333", " 64", "  42", "CONALEP AZCAPOTZALCO" ] 
 },
 {
  "type": "Feature",
@@ -158,7 +199,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.215, 19.484 ] 
 },
-"properties": [ "104306", " 46.0", " 129", "CONALEP CENTRO MÉXICO-CANADÁ" ] 
+"properties": [ "104306", " 46", " 129", "CONALEP CENTRO MÉXICO-CANADÁ" ] 
 },
 {
  "type": "Feature",
@@ -166,7 +207,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.215, 19.484 ] 
 },
-"properties": [ "104316", " 47.0", " 271", "CONALEP CENTRO MÉXICO-CANADÁ" ] 
+"properties": [ "104316", " 47", " 271", "CONALEP CENTRO MÉXICO-CANADÁ" ] 
 },
 {
  "type": "Feature",
@@ -182,7 +223,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.109, 19.325 ] 
 },
-"properties": [ "105313", " 81.0", " 474", "CONALEP COYOACÁN" ] 
+"properties": [ "105313", " 81", " 474", "CONALEP COYOACÁN" ] 
 },
 {
  "type": "Feature",
@@ -190,7 +231,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.108, 19.325 ] 
 },
-"properties": [ "105322", " 71.0", " 113", "CONALEP COYOACÁN" ] 
+"properties": [ "105322", " 71", " 113", "CONALEP COYOACÁN" ] 
 },
 {
  "type": "Feature",
@@ -198,7 +239,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.108, 19.325 ] 
 },
-"properties": [ "105331", " 69.0", " 245", "CONALEP COYOACÁN" ] 
+"properties": [ "105331", " 69", " 245", "CONALEP COYOACÁN" ] 
 },
 {
  "type": "Feature",
@@ -206,7 +247,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.284, 19.351 ] 
 },
-"properties": [ "106303", " 46.0", " 254", "CONALEP SANTA FE" ] 
+"properties": [ "106303", " 46", " 254", "CONALEP SANTA FE" ] 
 },
 {
  "type": "Feature",
@@ -214,7 +255,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.284, 19.351 ] 
 },
-"properties": [ "106316", " 51.0", " 307", "CONALEP SANTA FE" ] 
+"properties": [ "106316", " 51", " 307", "CONALEP SANTA FE" ] 
 },
 {
  "type": "Feature",
@@ -222,7 +263,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.284, 19.351 ] 
 },
-"properties": [ "106322", " 46.0", " 155", "CONALEP SANTA FE" ] 
+"properties": [ "106322", " 46", " 155", "CONALEP SANTA FE" ] 
 },
 {
  "type": "Feature",
@@ -230,7 +271,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.284, 19.351 ] 
 },
-"properties": [ "106334", " 58.0", " 163", "CONALEP SANTA FE" ] 
+"properties": [ "106334", " 58", " 163", "CONALEP SANTA FE" ] 
 },
 {
  "type": "Feature",
@@ -238,7 +279,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.354, 19.295 ] 
 },
-"properties": [ "107302", " 62.0", " 211", "CONALEP EL ZARCO" ] 
+"properties": [ "107302", " 62", " 211", "CONALEP EL ZARCO" ] 
 },
 {
  "type": "Feature",
@@ -246,7 +287,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.354, 19.295 ] 
 },
-"properties": [ "107306", " 42.0", "  37", "CONALEP EL ZARCO" ] 
+"properties": [ "107306", " 42", "  37", "CONALEP EL ZARCO" ] 
 },
 {
  "type": "Feature",
@@ -262,7 +303,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.071, 19.451 ] 
 },
-"properties": [ "108310", " 47.0", " 204", "CONALEP ARAGÓN" ] 
+"properties": [ "108310", " 47", " 204", "CONALEP ARAGÓN" ] 
 },
 {
  "type": "Feature",
@@ -270,7 +311,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.071, 19.451 ] 
 },
-"properties": [ "108312", " 49.0", " 161", "CONALEP ARAGÓN" ] 
+"properties": [ "108312", " 49", " 161", "CONALEP ARAGÓN" ] 
 },
 {
  "type": "Feature",
@@ -278,7 +319,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.071, 19.451 ] 
 },
-"properties": [ "108316", " 63.0", " 258", "CONALEP ARAGÓN" ] 
+"properties": [ "108316", " 63", " 258", "CONALEP ARAGÓN" ] 
 },
 {
  "type": "Feature",
@@ -286,7 +327,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.071, 19.451 ] 
 },
-"properties": [ "108334", " 57.0", " 267", "CONALEP ARAGÓN" ] 
+"properties": [ "108334", " 57", " 267", "CONALEP ARAGÓN" ] 
 },
 {
  "type": "Feature",
@@ -302,7 +343,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.144, 19.532 ] 
 },
-"properties": [ "109316", " 46.0", " 395", "CONALEP GUSTAVO A. MADERO I" ] 
+"properties": [ "109316", " 46", " 395", "CONALEP GUSTAVO A. MADERO I" ] 
 },
 {
  "type": "Feature",
@@ -310,7 +351,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.145, 19.531 ] 
 },
-"properties": [ "109322", " 56.0", " 117", "CONALEP GUSTAVO A. MADERO I" ] 
+"properties": [ "109322", " 56", " 117", "CONALEP GUSTAVO A. MADERO I" ] 
 },
 {
  "type": "Feature",
@@ -318,7 +359,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.095, 19.504 ] 
 },
-"properties": [ "11000", " 57.0", "1140", "PLANTEL 11, NUEVA ATZACOALCO" ] 
+"properties": [ "11000", " 57", "1140", "PLANTEL 11, NUEVA ATZACOALCO" ] 
 },
 {
  "type": "Feature",
@@ -334,7 +375,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.086, 19.504 ] 
 },
-"properties": [ "110304", " 56.0", " 323", "CONALEP GUSTAVO A. MADERO II" ] 
+"properties": [ "110304", " 56", " 323", "CONALEP GUSTAVO A. MADERO II" ] 
 },
 {
  "type": "Feature",
@@ -342,7 +383,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.087, 19.508 ] 
 },
-"properties": [ "110311", " 48.0", " 100", "CONALEP GUSTAVO A. MADERO II" ] 
+"properties": [ "110311", " 48", " 100", "CONALEP GUSTAVO A. MADERO II" ] 
 },
 {
  "type": "Feature",
@@ -350,7 +391,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.085, 19.504 ] 
 },
-"properties": [ "110316", " 54.0", " 259", "CONALEP GUSTAVO A. MADERO II" ] 
+"properties": [ "110316", " 54", " 259", "CONALEP GUSTAVO A. MADERO II" ] 
 },
 {
  "type": "Feature",
@@ -358,7 +399,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.146, 19.522 ] 
 },
-"properties": [ "111303", " 48.0", " 172", "CONALEP TICOMÁN" ] 
+"properties": [ "111303", " 48", " 172", "CONALEP TICOMÁN" ] 
 },
 {
  "type": "Feature",
@@ -366,7 +407,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.146, 19.522 ] 
 },
-"properties": [ "111310", " 44.0", " 103", "CONALEP TICOMÁN" ] 
+"properties": [ "111310", " 44", " 103", "CONALEP TICOMÁN" ] 
 },
 {
  "type": "Feature",
@@ -374,7 +415,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.146, 19.521 ] 
 },
-"properties": [ "111327", " 56.0", "  96", "CONALEP TICOMÁN" ] 
+"properties": [ "111327", " 56", "  96", "CONALEP TICOMÁN" ] 
 },
 {
  "type": "Feature",
@@ -382,7 +423,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.146, 19.522 ] 
 },
-"properties": [ "111335", " 54.0", " 202", "CONALEP TICOMÁN" ] 
+"properties": [ "111335", " 54", " 202", "CONALEP TICOMÁN" ] 
 },
 {
  "type": "Feature",
@@ -390,7 +431,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.066, 19.403 ] 
 },
-"properties": [ "112303", " 46.0", " 330", "CONALEP IZTACALCO I" ] 
+"properties": [ "112303", " 46", " 330", "CONALEP IZTACALCO I" ] 
 },
 {
  "type": "Feature",
@@ -398,7 +439,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.066, 19.403 ] 
 },
-"properties": [ "112311", " 49.0", " 300", "CONALEP IZTACALCO I" ] 
+"properties": [ "112311", " 49", " 300", "CONALEP IZTACALCO I" ] 
 },
 {
  "type": "Feature",
@@ -406,7 +447,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.066, 19.403 ] 
 },
-"properties": [ "112315", " 46.0", " 320", "CONALEP IZTACALCO I" ] 
+"properties": [ "112315", " 46", " 320", "CONALEP IZTACALCO I" ] 
 },
 {
  "type": "Feature",
@@ -414,7 +455,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.032, 19.357 ] 
 },
-"properties": [ "113306", " 50.0", " 203", "CONALEP AZTAHUACAN" ] 
+"properties": [ "113306", " 50", " 203", "CONALEP AZTAHUACAN" ] 
 },
 {
  "type": "Feature",
@@ -422,7 +463,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.032, 19.357 ] 
 },
-"properties": [ "113312", " 47.0", " 171", "CONALEP AZTAHUACAN" ] 
+"properties": [ "113312", " 47", " 171", "CONALEP AZTAHUACAN" ] 
 },
 {
  "type": "Feature",
@@ -430,7 +471,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.032, 19.357 ] 
 },
-"properties": [ "113315", " 46.0", " 202", "CONALEP AZTAHUACAN" ] 
+"properties": [ "113315", " 46", " 202", "CONALEP AZTAHUACAN" ] 
 },
 {
  "type": "Feature",
@@ -438,7 +479,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.032, 19.357 ] 
 },
-"properties": [ "113322", " 47.0", " 284", "CONALEP AZTAHUACAN" ] 
+"properties": [ "113322", " 47", " 284", "CONALEP AZTAHUACAN" ] 
 },
 {
  "type": "Feature",
@@ -446,7 +487,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.006, 19.373 ] 
 },
-"properties": [ "114306", " 51.0", " 115", "CONALEP IZTAPALAPA V" ] 
+"properties": [ "114306", " 51", " 115", "CONALEP IZTAPALAPA V" ] 
 },
 {
  "type": "Feature",
@@ -454,7 +495,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.006, 19.373 ] 
 },
-"properties": [ "114316", " 53.0", " 265", "CONALEP IZTAPALAPA V" ] 
+"properties": [ "114316", " 53", " 265", "CONALEP IZTAPALAPA V" ] 
 },
 {
  "type": "Feature",
@@ -462,7 +503,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.006, 19.373 ] 
 },
-"properties": [ "114317", " 53.0", " 208", "CONALEP IZTAPALAPA V" ] 
+"properties": [ "114317", " 53", " 208", "CONALEP IZTAPALAPA V" ] 
 },
 {
  "type": "Feature",
@@ -470,7 +511,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.014, 19.361 ] 
 },
-"properties": [ "115303", " 48.0", " 115", "CONALEP IZTAPALAPA I" ] 
+"properties": [ "115303", " 48", " 115", "CONALEP IZTAPALAPA I" ] 
 },
 {
  "type": "Feature",
@@ -486,7 +527,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.014, 19.361 ] 
 },
-"properties": [ "115310", " 49.0", "  65", "CONALEP IZTAPALAPA I" ] 
+"properties": [ "115310", " 49", "  65", "CONALEP IZTAPALAPA I" ] 
 },
 {
  "type": "Feature",
@@ -494,7 +535,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.014, 19.361 ] 
 },
-"properties": [ "115320", " 47.0", "  53", "CONALEP IZTAPALAPA I" ] 
+"properties": [ "115320", " 47", "  53", "CONALEP IZTAPALAPA I" ] 
 },
 {
  "type": "Feature",
@@ -502,7 +543,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.053, 19.384 ] 
 },
-"properties": [ "116305", " 53.0", " 185", "CONALEP IZTAPALAPA II" ] 
+"properties": [ "116305", " 53", " 185", "CONALEP IZTAPALAPA II" ] 
 },
 {
  "type": "Feature",
@@ -510,7 +551,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.053, 19.384 ] 
 },
-"properties": [ "116306", " 50.0", " 105", "CONALEP IZTAPALAPA II" ] 
+"properties": [ "116306", " 50", " 105", "CONALEP IZTAPALAPA II" ] 
 },
 {
  "type": "Feature",
@@ -518,7 +559,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.053, 19.384 ] 
 },
-"properties": [ "116336", " 52.0", " 189", "CONALEP IZTAPALAPA II" ] 
+"properties": [ "116336", " 52", " 189", "CONALEP IZTAPALAPA II" ] 
 },
 {
  "type": "Feature",
@@ -526,7 +567,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.079, 19.335 ] 
 },
-"properties": [ "117303", " 46.0", " 116", "CONALEP IZTAPALAPA III" ] 
+"properties": [ "117303", " 46", " 116", "CONALEP IZTAPALAPA III" ] 
 },
 {
  "type": "Feature",
@@ -534,7 +575,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.079, 19.335 ] 
 },
-"properties": [ "117316", " 49.0", " 295", "CONALEP IZTAPALAPA III" ] 
+"properties": [ "117316", " 49", " 295", "CONALEP IZTAPALAPA III" ] 
 },
 {
  "type": "Feature",
@@ -542,7 +583,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.079, 19.335 ] 
 },
-"properties": [ "117328", " 48.0", "  43", "CONALEP IZTAPALAPA III" ] 
+"properties": [ "117328", " 48", "  43", "CONALEP IZTAPALAPA III" ] 
 },
 {
  "type": "Feature",
@@ -550,7 +591,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.069, 19.292 ] 
 },
-"properties": [ "118304", " 63.0", " 193", "CONALEP IZTAPALAPA IV" ] 
+"properties": [ "118304", " 63", " 193", "CONALEP IZTAPALAPA IV" ] 
 },
 {
  "type": "Feature",
@@ -558,7 +599,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.069, 19.292 ] 
 },
-"properties": [ "118306", " 56.0", "  87", "CONALEP IZTAPALAPA IV" ] 
+"properties": [ "118306", " 56", "  87", "CONALEP IZTAPALAPA IV" ] 
 },
 {
  "type": "Feature",
@@ -566,7 +607,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.069, 19.292 ] 
 },
-"properties": [ "118317", " 49.0", " 228", "CONALEP IZTAPALAPA IV" ] 
+"properties": [ "118317", " 49", " 228", "CONALEP IZTAPALAPA IV" ] 
 },
 {
  "type": "Feature",
@@ -574,7 +615,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.269, 19.305 ] 
 },
-"properties": [ "119301", " 47.0", " 371", "CONALEP COMERCIO Y FOMENTO INDUSTRIAL (SECOFI)" ] 
+"properties": [ "119301", " 47", " 371", "CONALEP COMERCIO Y FOMENTO INDUSTRIAL (SECOFI)" ] 
 },
 {
  "type": "Feature",
@@ -582,7 +623,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.267, 19.305 ] 
 },
-"properties": [ "119303", " 47.0", " 161", "CONALEP COMERCIO Y FOMENTO INDUSTRIAL (SECOFI)" ] 
+"properties": [ "119303", " 47", " 161", "CONALEP COMERCIO Y FOMENTO INDUSTRIAL (SECOFI)" ] 
 },
 {
  "type": "Feature",
@@ -590,7 +631,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.988, 19.409 ] 
 },
-"properties": [ "12000", " 54.0", "1793", "PLANTEL 12, NEZAHUALCÓYOTL" ] 
+"properties": [ "12000", " 54", "1793", "PLANTEL 12, NEZAHUALCÓYOTL" ] 
 },
 {
  "type": "Feature",
@@ -598,7 +639,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.23, 19.311 ] 
 },
-"properties": [ "120302", " 69.0", " 340", "CONALEP MAGDALENA CONTRERAS" ] 
+"properties": [ "120302", " 69", " 340", "CONALEP MAGDALENA CONTRERAS" ] 
 },
 {
  "type": "Feature",
@@ -606,7 +647,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.23, 19.311 ] 
 },
-"properties": [ "120306", " 50.0", " 224", "CONALEP MAGDALENA CONTRERAS" ] 
+"properties": [ "120306", " 50", " 224", "CONALEP MAGDALENA CONTRERAS" ] 
 },
 {
  "type": "Feature",
@@ -614,7 +655,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.23, 19.311 ] 
 },
-"properties": [ "120316", " 61.0", " 257", "CONALEP MAGDALENA CONTRERAS" ] 
+"properties": [ "120316", " 61", " 257", "CONALEP MAGDALENA CONTRERAS" ] 
 },
 {
  "type": "Feature",
@@ -622,7 +663,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.066, 19.186 ] 
 },
-"properties": [ "121303", " 46.0", " 216", "CONALEP MILPA ALTA" ] 
+"properties": [ "121303", " 46", " 216", "CONALEP MILPA ALTA" ] 
 },
 {
  "type": "Feature",
@@ -630,7 +671,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.066, 19.186 ] 
 },
-"properties": [ "121306", " 45.0", " 160", "CONALEP MILPA ALTA" ] 
+"properties": [ "121306", " 45", " 160", "CONALEP MILPA ALTA" ] 
 },
 {
  "type": "Feature",
@@ -638,7 +679,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.066, 19.186 ] 
 },
-"properties": [ "121313", " 68.0", " 628", "CONALEP MILPA ALTA" ] 
+"properties": [ "121313", " 68", " 628", "CONALEP MILPA ALTA" ] 
 },
 {
  "type": "Feature",
@@ -646,7 +687,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.994, 19.285 ] 
 },
-"properties": [ "122304", " 50.0", " 337", "CONALEP TLÁHUAC" ] 
+"properties": [ "122304", " 50", " 337", "CONALEP TLÁHUAC" ] 
 },
 {
  "type": "Feature",
@@ -654,7 +695,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.994, 19.286 ] 
 },
-"properties": [ "122306", " 47.0", " 329", "CONALEP TLÁHUAC" ] 
+"properties": [ "122306", " 47", " 329", "CONALEP TLÁHUAC" ] 
 },
 {
  "type": "Feature",
@@ -662,7 +703,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.993, 19.285 ] 
 },
-"properties": [ "122312", " 45.0", " 243", "CONALEP TLÁHUAC" ] 
+"properties": [ "122312", " 45", " 243", "CONALEP TLÁHUAC" ] 
 },
 {
  "type": "Feature",
@@ -670,7 +711,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.163, 19.298 ] 
 },
-"properties": [ "123302", " 81.0", " 474", "CONALEP TLALPAN I" ] 
+"properties": [ "123302", " 81", " 474", "CONALEP TLALPAN I" ] 
 },
 {
  "type": "Feature",
@@ -678,7 +719,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.163, 19.298 ] 
 },
-"properties": [ "123316", " 73.0", " 253", "CONALEP TLALPAN I" ] 
+"properties": [ "123316", " 73", " 253", "CONALEP TLALPAN I" ] 
 },
 {
  "type": "Feature",
@@ -686,7 +727,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.207, 19.283 ] 
 },
-"properties": [ "124301", " 63.0", " 334", "CONALEP TLALPAN II" ] 
+"properties": [ "124301", " 63", " 334", "CONALEP TLALPAN II" ] 
 },
 {
  "type": "Feature",
@@ -694,7 +735,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.207, 19.283 ] 
 },
-"properties": [ "124311", " 61.0", " 237", "CONALEP TLALPAN II" ] 
+"properties": [ "124311", " 61", " 237", "CONALEP TLALPAN II" ] 
 },
 {
  "type": "Feature",
@@ -702,7 +743,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.207, 19.283 ] 
 },
-"properties": [ "124327", " 53.0", " 230", "CONALEP TLALPAN II" ] 
+"properties": [ "124327", " 53", " 230", "CONALEP TLALPAN II" ] 
 },
 {
  "type": "Feature",
@@ -710,7 +751,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.058, 19.424 ] 
 },
-"properties": [ "125318", " 72.0", " 209", "CONALEP AEROPUERTO" ] 
+"properties": [ "125318", " 72", " 209", "CONALEP AEROPUERTO" ] 
 },
 {
  "type": "Feature",
@@ -718,7 +759,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.057, 19.424 ] 
 },
-"properties": [ "125329", " 64.0", " 168", "CONALEP AEROPUERTO" ] 
+"properties": [ "125329", " 64", " 168", "CONALEP AEROPUERTO" ] 
 },
 {
  "type": "Feature",
@@ -726,7 +767,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.057, 19.424 ] 
 },
-"properties": [ "125330", " 53.0", " 166", "CONALEP AEROPUERTO" ] 
+"properties": [ "125330", " 53", " 166", "CONALEP AEROPUERTO" ] 
 },
 {
  "type": "Feature",
@@ -734,7 +775,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.057, 19.424 ] 
 },
-"properties": [ "125332", " 50.0", " 135", "CONALEP AEROPUERTO" ] 
+"properties": [ "125332", " 50", " 135", "CONALEP AEROPUERTO" ] 
 },
 {
  "type": "Feature",
@@ -742,7 +783,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.127, 19.412 ] 
 },
-"properties": [ "126303", " 48.0", "  83", "CONALEP VENUSTIANO CARRANZA I" ] 
+"properties": [ "126303", " 48", "  83", "CONALEP VENUSTIANO CARRANZA I" ] 
 },
 {
  "type": "Feature",
@@ -758,7 +799,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.127, 19.412 ] 
 },
-"properties": [ "126312", " 47.0", "  73", "CONALEP VENUSTIANO CARRANZA I" ] 
+"properties": [ "126312", " 47", "  73", "CONALEP VENUSTIANO CARRANZA I" ] 
 },
 {
  "type": "Feature",
@@ -766,7 +807,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.127, 19.412 ] 
 },
-"properties": [ "126317", " 46.0", " 197", "CONALEP VENUSTIANO CARRANZA I" ] 
+"properties": [ "126317", " 46", " 197", "CONALEP VENUSTIANO CARRANZA I" ] 
 },
 {
  "type": "Feature",
@@ -774,7 +815,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.059, 19.423 ] 
 },
-"properties": [ "127302", " 75.0", " 341", "CONALEP VENUSTIANO CARRANZA II" ] 
+"properties": [ "127302", " 75", " 341", "CONALEP VENUSTIANO CARRANZA II" ] 
 },
 {
  "type": "Feature",
@@ -782,7 +823,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.059, 19.423 ] 
 },
-"properties": [ "127314", " 51.0", " 269", "CONALEP VENUSTIANO CARRANZA II" ] 
+"properties": [ "127314", " 51", " 269", "CONALEP VENUSTIANO CARRANZA II" ] 
 },
 {
  "type": "Feature",
@@ -790,7 +831,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.059, 19.423 ] 
 },
-"properties": [ "127317", " 50.0", " 119", "CONALEP VENUSTIANO CARRANZA II" ] 
+"properties": [ "127317", " 50", " 119", "CONALEP VENUSTIANO CARRANZA II" ] 
 },
 {
  "type": "Feature",
@@ -798,7 +839,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.129,  19.27 ] 
 },
-"properties": [ "128303", " 55.0", " 357", "CONALEP XOCHIMILCO" ] 
+"properties": [ "128303", " 55", " 357", "CONALEP XOCHIMILCO" ] 
 },
 {
  "type": "Feature",
@@ -806,7 +847,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.129,  19.27 ] 
 },
-"properties": [ "128305", " 53.0", " 267", "CONALEP XOCHIMILCO" ] 
+"properties": [ "128305", " 53", " 267", "CONALEP XOCHIMILCO" ] 
 },
 {
  "type": "Feature",
@@ -814,7 +855,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.129,  19.27 ] 
 },
-"properties": [ "128312", " 61.0", " 212", "CONALEP XOCHIMILCO" ] 
+"properties": [ "128312", " 61", " 212", "CONALEP XOCHIMILCO" ] 
 },
 {
  "type": "Feature",
@@ -822,7 +863,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.129,  19.27 ] 
 },
-"properties": [ "128327", " 53.0", " 314", "CONALEP XOCHIMILCO" ] 
+"properties": [ "128327", " 53", " 314", "CONALEP XOCHIMILCO" ] 
 },
 {
  "type": "Feature",
@@ -838,7 +879,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.267, 19.553 ] 
 },
-"properties": [ "129319", " 46.0", " 159", "CONALEP ATIZAPÁN I" ] 
+"properties": [ "129319", " 46", " 159", "CONALEP ATIZAPÁN I" ] 
 },
 {
  "type": "Feature",
@@ -846,7 +887,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.267, 19.553 ] 
 },
-"properties": [ "129336", " 52.0", " 204", "CONALEP ATIZAPÁN I" ] 
+"properties": [ "129336", " 52", " 204", "CONALEP ATIZAPÁN I" ] 
 },
 {
  "type": "Feature",
@@ -854,7 +895,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.126, 19.261 ] 
 },
-"properties": [ "13000", " 81.0", "1708", "PLANTEL 13, XOCHIMILCO TEPEPAN QUIRINO MENDOZA Y CORTÉS" ] 
+"properties": [ "13000", " 81", "1708", "PLANTEL 13, XOCHIMILCO TEPEPAN QUIRINO MENDOZA Y CORTÉS" ] 
 },
 {
  "type": "Feature",
@@ -862,7 +903,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.231, 19.607 ] 
 },
-"properties": [ "130306", " 49.0", " 106", "CONALEP ATIZAPÁN II" ] 
+"properties": [ "130306", " 49", " 106", "CONALEP ATIZAPÁN II" ] 
 },
 {
  "type": "Feature",
@@ -870,7 +911,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.231, 19.607 ] 
 },
-"properties": [ "130311", " 47.0", " 124", "CONALEP ATIZAPÁN II" ] 
+"properties": [ "130311", " 47", " 124", "CONALEP ATIZAPÁN II" ] 
 },
 {
  "type": "Feature",
@@ -878,7 +919,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.231, 19.607 ] 
 },
-"properties": [ "130317", " 49.0", " 220", "CONALEP ATIZAPÁN II" ] 
+"properties": [ "130317", " 49", " 220", "CONALEP ATIZAPÁN II" ] 
 },
 {
  "type": "Feature",
@@ -886,7 +927,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.119, 19.643 ] 
 },
-"properties": [ "131306", " 49.0", " 225", "CONALEP COACALCO" ] 
+"properties": [ "131306", " 49", " 225", "CONALEP COACALCO" ] 
 },
 {
  "type": "Feature",
@@ -894,7 +935,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.119, 19.643 ] 
 },
-"properties": [ "131316", " 56.0", " 345", "CONALEP COACALCO" ] 
+"properties": [ "131316", " 56", " 345", "CONALEP COACALCO" ] 
 },
 {
  "type": "Feature",
@@ -902,7 +943,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.119, 19.643 ] 
 },
-"properties": [ "131327", " 48.0", " 216", "CONALEP COACALCO" ] 
+"properties": [ "131327", " 48", " 216", "CONALEP COACALCO" ] 
 },
 {
  "type": "Feature",
@@ -910,7 +951,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.213, 19.671 ] 
 },
-"properties": [ "132302", " 67.0", " 363", "CONALEP CUAUTITLÁN" ] 
+"properties": [ "132302", " 67", " 363", "CONALEP CUAUTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -918,7 +959,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.213, 19.671 ] 
 },
-"properties": [ "132309", " 51.0", " 179", "CONALEP CUAUTITLÁN" ] 
+"properties": [ "132309", " 51", " 179", "CONALEP CUAUTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -926,7 +967,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.213, 19.671 ] 
 },
-"properties": [ "132313", " 67.0", " 522", "CONALEP CUAUTITLÁN" ] 
+"properties": [ "132313", " 67", " 522", "CONALEP CUAUTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -934,7 +975,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.213, 19.671 ] 
 },
-"properties": [ "132314", " 52.0", " 341", "CONALEP CUAUTITLÁN" ] 
+"properties": [ "132314", " 52", " 341", "CONALEP CUAUTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -942,7 +983,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.21, 19.675 ] 
 },
-"properties": [ "133306", " 50.0", " 108", "CONALEP ING. BERNARDO QUINTANA ARRIOJA - CUAUTITLÁN" ] 
+"properties": [ "133306", " 50", " 108", "CONALEP ING. BERNARDO QUINTANA ARRIOJA - CUAUTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -950,7 +991,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.21, 19.675 ] 
 },
-"properties": [ "133316", " 48.0", " 389", "CONALEP ING. BERNARDO QUINTANA ARRIOJA - CUAUTITLÁN" ] 
+"properties": [ "133316", " 48", " 389", "CONALEP ING. BERNARDO QUINTANA ARRIOJA - CUAUTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -958,7 +999,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.21, 19.675 ] 
 },
-"properties": [ "133319", " 48.0", " 152", "CONALEP ING. BERNARDO QUINTANA ARRIOJA - CUAUTITLÁN" ] 
+"properties": [ "133319", " 48", " 152", "CONALEP ING. BERNARDO QUINTANA ARRIOJA - CUAUTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -974,7 +1015,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.907, 19.271 ] 
 },
-"properties": [ "134306", " 53.0", " 187", "CONALEP CHALCO" ] 
+"properties": [ "134306", " 53", " 187", "CONALEP CHALCO" ] 
 },
 {
  "type": "Feature",
@@ -982,7 +1023,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.907, 19.272 ] 
 },
-"properties": [ "134311", " 47.0", " 193", "CONALEP CHALCO" ] 
+"properties": [ "134311", " 47", " 193", "CONALEP CHALCO" ] 
 },
 {
  "type": "Feature",
@@ -990,7 +1031,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.907, 19.271 ] 
 },
-"properties": [ "134313", " 69.0", " 386", "CONALEP CHALCO" ] 
+"properties": [ "134313", " 69", " 386", "CONALEP CHALCO" ] 
 },
 {
  "type": "Feature",
@@ -998,7 +1039,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.972, 19.445 ] 
 },
-"properties": [ "135303", " 48.0", "  50", "CONALEP CHIMALHUACÁN" ] 
+"properties": [ "135303", " 48", "  50", "CONALEP CHIMALHUACÁN" ] 
 },
 {
  "type": "Feature",
@@ -1006,7 +1047,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.972, 19.445 ] 
 },
-"properties": [ "135306", " 56.0", "  55", "CONALEP CHIMALHUACÁN" ] 
+"properties": [ "135306", " 56", "  55", "CONALEP CHIMALHUACÁN" ] 
 },
 {
  "type": "Feature",
@@ -1014,7 +1055,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.971, 19.445 ] 
 },
-"properties": [ "135311", " 48.0", " 104", "CONALEP CHIMALHUACÁN" ] 
+"properties": [ "135311", " 48", " 104", "CONALEP CHIMALHUACÁN" ] 
 },
 {
  "type": "Feature",
@@ -1022,7 +1063,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.972, 19.445 ] 
 },
-"properties": [ "135316", " 52.0", " 127", "CONALEP CHIMALHUACÁN" ] 
+"properties": [ "135316", " 52", " 127", "CONALEP CHIMALHUACÁN" ] 
 },
 {
  "type": "Feature",
@@ -1030,7 +1071,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.032, 19.548 ] 
 },
-"properties": [ "136310", " 48.0", " 241", "CONALEP CIUDAD AZTECA" ] 
+"properties": [ "136310", " 48", " 241", "CONALEP CIUDAD AZTECA" ] 
 },
 {
  "type": "Feature",
@@ -1038,7 +1079,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.032, 19.548 ] 
 },
-"properties": [ "136321", " 52.0", "  65", "CONALEP CIUDAD AZTECA" ] 
+"properties": [ "136321", " 52", "  65", "CONALEP CIUDAD AZTECA" ] 
 },
 {
  "type": "Feature",
@@ -1062,7 +1103,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.002, 19.647 ] 
 },
-"properties": [ "137303", " 48.0", "  95", "CONALEP ECATEPEC I" ] 
+"properties": [ "137303", " 48", "  95", "CONALEP ECATEPEC I" ] 
 },
 {
  "type": "Feature",
@@ -1070,7 +1111,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.002, 19.647 ] 
 },
-"properties": [ "137311", " 49.0", " 113", "CONALEP ECATEPEC I" ] 
+"properties": [ "137311", " 49", " 113", "CONALEP ECATEPEC I" ] 
 },
 {
  "type": "Feature",
@@ -1078,7 +1119,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.002, 19.647 ] 
 },
-"properties": [ "137312", " 50.0", "  70", "CONALEP ECATEPEC I" ] 
+"properties": [ "137312", " 50", "  70", "CONALEP ECATEPEC I" ] 
 },
 {
  "type": "Feature",
@@ -1086,7 +1127,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.002, 19.647 ] 
 },
-"properties": [ "137316", " 48.0", " 253", "CONALEP ECATEPEC I" ] 
+"properties": [ "137316", " 48", " 253", "CONALEP ECATEPEC I" ] 
 },
 {
  "type": "Feature",
@@ -1094,7 +1135,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.029, 19.507 ] 
 },
-"properties": [ "138301", " 55.0", " 103", "CONALEP ECATEPEC II" ] 
+"properties": [ "138301", " 55", " 103", "CONALEP ECATEPEC II" ] 
 },
 {
  "type": "Feature",
@@ -1102,7 +1143,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.029, 19.507 ] 
 },
-"properties": [ "138306", " 53.0", "  71", "CONALEP ECATEPEC II" ] 
+"properties": [ "138306", " 53", "  71", "CONALEP ECATEPEC II" ] 
 },
 {
  "type": "Feature",
@@ -1110,7 +1151,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.029, 19.507 ] 
 },
-"properties": [ "138316", " 49.0", " 220", "CONALEP ECATEPEC II" ] 
+"properties": [ "138316", " 49", " 220", "CONALEP ECATEPEC II" ] 
 },
 {
  "type": "Feature",
@@ -1118,7 +1159,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.029, 19.506 ] 
 },
-"properties": [ "138317", " 51.0", " 155", "CONALEP ECATEPEC II" ] 
+"properties": [ "138317", " 51", " 155", "CONALEP ECATEPEC II" ] 
 },
 {
  "type": "Feature",
@@ -1126,7 +1167,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.062, 19.626 ] 
 },
-"properties": [ "139306", " 45.0", " 150", "CONALEP ECATEPEC III" ] 
+"properties": [ "139306", " 45", " 150", "CONALEP ECATEPEC III" ] 
 },
 {
  "type": "Feature",
@@ -1142,7 +1183,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.062, 19.626 ] 
 },
-"properties": [ "139336", " 51.0", " 229", "CONALEP ECATEPEC III" ] 
+"properties": [ "139336", " 51", " 229", "CONALEP ECATEPEC III" ] 
 },
 {
  "type": "Feature",
@@ -1150,7 +1191,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.022, 19.192 ] 
 },
-"properties": [ "14000", " 70.0", " 995", "PLANTEL 14, MILPA ALTA FIDENCIO VILLANUEVA ROJAS" ] 
+"properties": [ "14000", " 70", " 995", "PLANTEL 14, MILPA ALTA FIDENCIO VILLANUEVA ROJAS" ] 
 },
 {
  "type": "Feature",
@@ -1158,7 +1199,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.054, 19.499 ] 
 },
-"properties": [ "140303", " 41.0", "  81", "CONALEP VALLE DE ARAGÓN" ] 
+"properties": [ "140303", " 41", "  81", "CONALEP VALLE DE ARAGÓN" ] 
 },
 {
  "type": "Feature",
@@ -1174,7 +1215,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.054, 19.499 ] 
 },
-"properties": [ "140320", " 50.0", "  53", "CONALEP VALLE DE ARAGÓN" ] 
+"properties": [ "140320", " 50", "  53", "CONALEP VALLE DE ARAGÓN" ] 
 },
 {
  "type": "Feature",
@@ -1182,7 +1223,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.344, 19.359 ] 
 },
-"properties": [ "141306", " 42.0", " 177", "CONALEP HUIXQUILUCAN" ] 
+"properties": [ "141306", " 42", " 177", "CONALEP HUIXQUILUCAN" ] 
 },
 {
  "type": "Feature",
@@ -1190,7 +1231,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.344, 19.359 ] 
 },
-"properties": [ "141336", " 45.0", " 222", "CONALEP HUIXQUILUCAN" ] 
+"properties": [ "141336", " 45", " 222", "CONALEP HUIXQUILUCAN" ] 
 },
 {
  "type": "Feature",
@@ -1198,7 +1239,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.932, 19.318 ] 
 },
-"properties": [ "142315", " 46.0", " 126", "CONALEP IXTAPALUCA" ] 
+"properties": [ "142315", " 46", " 126", "CONALEP IXTAPALUCA" ] 
 },
 {
  "type": "Feature",
@@ -1206,7 +1247,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.932, 19.318 ] 
 },
-"properties": [ "142316", " 53.0", " 220", "CONALEP IXTAPALUCA" ] 
+"properties": [ "142316", " 53", " 220", "CONALEP IXTAPALUCA" ] 
 },
 {
  "type": "Feature",
@@ -1214,7 +1255,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.932, 19.318 ] 
 },
-"properties": [ "142327", " 51.0", "  83", "CONALEP IXTAPALUCA" ] 
+"properties": [ "142327", " 51", "  83", "CONALEP IXTAPALUCA" ] 
 },
 {
  "type": "Feature",
@@ -1222,7 +1263,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.269, 19.445 ] 
 },
-"properties": [ "143302", " 69.0", " 239", "CONALEP NAUCALPAN I" ] 
+"properties": [ "143302", " 69", " 239", "CONALEP NAUCALPAN I" ] 
 },
 {
  "type": "Feature",
@@ -1230,7 +1271,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.269, 19.445 ] 
 },
-"properties": [ "143306", " 50.0", " 154", "CONALEP NAUCALPAN I" ] 
+"properties": [ "143306", " 50", " 154", "CONALEP NAUCALPAN I" ] 
 },
 {
  "type": "Feature",
@@ -1238,7 +1279,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.269, 19.445 ] 
 },
-"properties": [ "143314", " 51.0", " 174", "CONALEP NAUCALPAN I" ] 
+"properties": [ "143314", " 51", " 174", "CONALEP NAUCALPAN I" ] 
 },
 {
  "type": "Feature",
@@ -1246,7 +1287,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.272, 19.444 ] 
 },
-"properties": [ "143316", " 57.0", " 218", "CONALEP NAUCALPAN I" ] 
+"properties": [ "143316", " 57", " 218", "CONALEP NAUCALPAN I" ] 
 },
 {
  "type": "Feature",
@@ -1254,7 +1295,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.25, 19.445 ] 
 },
-"properties": [ "144301", " 52.0", " 238", "CONALEP NAUCALPAN II" ] 
+"properties": [ "144301", " 52", " 238", "CONALEP NAUCALPAN II" ] 
 },
 {
  "type": "Feature",
@@ -1262,7 +1303,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.25, 19.445 ] 
 },
-"properties": [ "144311", " 54.0", " 169", "CONALEP NAUCALPAN II" ] 
+"properties": [ "144311", " 54", " 169", "CONALEP NAUCALPAN II" ] 
 },
 {
  "type": "Feature",
@@ -1270,7 +1311,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.25, 19.445 ] 
 },
-"properties": [ "144323", " 45.0", " 163", "CONALEP NAUCALPAN II" ] 
+"properties": [ "144323", " 45", " 163", "CONALEP NAUCALPAN II" ] 
 },
 {
  "type": "Feature",
@@ -1278,7 +1319,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.031, 19.429 ] 
 },
-"properties": [ "145303", " 55.0", "  42", "CONALEP DEL SOL" ] 
+"properties": [ "145303", " 55", "  42", "CONALEP DEL SOL" ] 
 },
 {
  "type": "Feature",
@@ -1286,7 +1327,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.031, 19.429 ] 
 },
-"properties": [ "145305", " 54.0", "  59", "CONALEP DEL SOL" ] 
+"properties": [ "145305", " 54", "  59", "CONALEP DEL SOL" ] 
 },
 {
  "type": "Feature",
@@ -1294,7 +1335,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.031, 19.429 ] 
 },
-"properties": [ "145312", " 51.0", "  45", "CONALEP DEL SOL" ] 
+"properties": [ "145312", " 51", "  45", "CONALEP DEL SOL" ] 
 },
 {
  "type": "Feature",
@@ -1302,7 +1343,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.031, 19.429 ] 
 },
-"properties": [ "145317", " 47.0", " 134", "CONALEP DEL SOL" ] 
+"properties": [ "145317", " 47", " 134", "CONALEP DEL SOL" ] 
 },
 {
  "type": "Feature",
@@ -1310,7 +1351,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.036, 19.479 ] 
 },
-"properties": [ "146309", " 49.0", " 143", "CONALEP NEZAHUALCÓYOTL I" ] 
+"properties": [ "146309", " 49", " 143", "CONALEP NEZAHUALCÓYOTL I" ] 
 },
 {
  "type": "Feature",
@@ -1318,7 +1359,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.036, 19.478 ] 
 },
-"properties": [ "146313", " 69.0", " 405", "CONALEP NEZAHUALCÓYOTL I" ] 
+"properties": [ "146313", " 69", " 405", "CONALEP NEZAHUALCÓYOTL I" ] 
 },
 {
  "type": "Feature",
@@ -1326,7 +1367,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.986, 19.401 ] 
 },
-"properties": [ "147315", " 46.0", " 144", "CONALEP NEZAHUALCÓYOTL II" ] 
+"properties": [ "147315", " 46", " 144", "CONALEP NEZAHUALCÓYOTL II" ] 
 },
 {
  "type": "Feature",
@@ -1342,7 +1383,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.014, 19.399 ] 
 },
-"properties": [ "148303", " 50.0", "  51", "CONALEP NEZAHUALCÓYOTL III" ] 
+"properties": [ "148303", " 50", "  51", "CONALEP NEZAHUALCÓYOTL III" ] 
 },
 {
  "type": "Feature",
@@ -1350,7 +1391,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.014,   19.4 ] 
 },
-"properties": [ "148306", " 52.0", "  39", "CONALEP NEZAHUALCÓYOTL III" ] 
+"properties": [ "148306", " 52", "  39", "CONALEP NEZAHUALCÓYOTL III" ] 
 },
 {
  "type": "Feature",
@@ -1358,7 +1399,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.013, 19.399 ] 
 },
-"properties": [ "148316", " 53.0", " 186", "CONALEP NEZAHUALCÓYOTL III" ] 
+"properties": [ "148316", " 53", " 186", "CONALEP NEZAHUALCÓYOTL III" ] 
 },
 {
  "type": "Feature",
@@ -1366,7 +1407,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.309, 19.629 ] 
 },
-"properties": [ "149301", " 44.0", " 187", "CONALEP NICOLÁS ROMERO" ] 
+"properties": [ "149301", " 44", " 187", "CONALEP NICOLÁS ROMERO" ] 
 },
 {
  "type": "Feature",
@@ -1374,7 +1415,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.309, 19.629 ] 
 },
-"properties": [ "149306", " 50.0", "  80", "CONALEP NICOLÁS ROMERO" ] 
+"properties": [ "149306", " 50", "  80", "CONALEP NICOLÁS ROMERO" ] 
 },
 {
  "type": "Feature",
@@ -1382,7 +1423,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.309, 19.629 ] 
 },
-"properties": [ "149312", " 45.0", " 141", "CONALEP NICOLÁS ROMERO" ] 
+"properties": [ "149312", " 45", " 141", "CONALEP NICOLÁS ROMERO" ] 
 },
 {
  "type": "Feature",
@@ -1390,7 +1431,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.309, 19.629 ] 
 },
-"properties": [ "149317", " 49.0", " 220", "CONALEP NICOLÁS ROMERO" ] 
+"properties": [ "149317", " 49", " 220", "CONALEP NICOLÁS ROMERO" ] 
 },
 {
  "type": "Feature",
@@ -1398,7 +1439,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.245,  19.31 ] 
 },
-"properties": [ "15000", " 74.0", "1291", "PLANTEL 15, CONTRERAS" ] 
+"properties": [ "15000", " 74", "1291", "PLANTEL 15, CONTRERAS" ] 
 },
 {
  "type": "Feature",
@@ -1406,7 +1447,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.938, 19.385 ] 
 },
-"properties": [ "150306", " 53.0", " 213", "CONALEP LOS REYES LA PAZ" ] 
+"properties": [ "150306", " 53", " 213", "CONALEP LOS REYES LA PAZ" ] 
 },
 {
  "type": "Feature",
@@ -1414,7 +1455,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.938, 19.386 ] 
 },
-"properties": [ "150310", " 55.0", " 121", "CONALEP LOS REYES LA PAZ" ] 
+"properties": [ "150310", " 55", " 121", "CONALEP LOS REYES LA PAZ" ] 
 },
 {
  "type": "Feature",
@@ -1422,7 +1463,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.937, 19.386 ] 
 },
-"properties": [ "150336", " 51.0", " 402", "CONALEP LOS REYES LA PAZ" ] 
+"properties": [ "150336", " 51", " 402", "CONALEP LOS REYES LA PAZ" ] 
 },
 {
  "type": "Feature",
@@ -1430,7 +1471,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.978, 19.697 ] 
 },
-"properties": [ "151319", " 48.0", " 225", "CONALEP TECÁMAC" ] 
+"properties": [ "151319", " 48", " 225", "CONALEP TECÁMAC" ] 
 },
 {
  "type": "Feature",
@@ -1438,7 +1479,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.978, 19.697 ] 
 },
-"properties": [ "151327", " 48.0", " 143", "CONALEP TECÁMAC" ] 
+"properties": [ "151327", " 48", " 143", "CONALEP TECÁMAC" ] 
 },
 {
  "type": "Feature",
@@ -1446,7 +1487,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.845, 19.539 ] 
 },
-"properties": [ "152303", " 43.0", "  78", "CONALEP TEXCOCO" ] 
+"properties": [ "152303", " 43", "  78", "CONALEP TEXCOCO" ] 
 },
 {
  "type": "Feature",
@@ -1454,7 +1495,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.845, 19.538 ] 
 },
-"properties": [ "152315", " 45.0", " 104", "CONALEP TEXCOCO" ] 
+"properties": [ "152315", " 45", " 104", "CONALEP TEXCOCO" ] 
 },
 {
  "type": "Feature",
@@ -1462,7 +1503,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.845, 19.539 ] 
 },
-"properties": [ "152316", " 44.0", " 208", "CONALEP TEXCOCO" ] 
+"properties": [ "152316", " 44", " 208", "CONALEP TEXCOCO" ] 
 },
 {
  "type": "Feature",
@@ -1470,7 +1511,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.203, 19.566 ] 
 },
-"properties": [ "153308", " 49.0", " 222", "CONALEP GUSTAVO BAZ - TLALNEPANTLA" ] 
+"properties": [ "153308", " 49", " 222", "CONALEP GUSTAVO BAZ - TLALNEPANTLA" ] 
 },
 {
  "type": "Feature",
@@ -1478,7 +1519,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.203, 19.566 ] 
 },
-"properties": [ "153316", " 56.0", " 230", "CONALEP GUSTAVO BAZ - TLALNEPANTLA" ] 
+"properties": [ "153316", " 56", " 230", "CONALEP GUSTAVO BAZ - TLALNEPANTLA" ] 
 },
 {
  "type": "Feature",
@@ -1494,7 +1535,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.203, 19.566 ] 
 },
-"properties": [ "153327", " 50.0", " 129", "CONALEP GUSTAVO BAZ - TLALNEPANTLA" ] 
+"properties": [ "153327", " 50", " 129", "CONALEP GUSTAVO BAZ - TLALNEPANTLA" ] 
 },
 {
  "type": "Feature",
@@ -1502,7 +1543,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.165, 19.512 ] 
 },
-"properties": [ "154311", " 49.0", "  55", "CONALEP TLALNEPANTLA I" ] 
+"properties": [ "154311", " 49", "  55", "CONALEP TLALNEPANTLA I" ] 
 },
 {
  "type": "Feature",
@@ -1510,7 +1551,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.165, 19.512 ] 
 },
-"properties": [ "154312", " 49.0", "  27", "CONALEP TLALNEPANTLA I" ] 
+"properties": [ "154312", " 49", "  27", "CONALEP TLALNEPANTLA I" ] 
 },
 {
  "type": "Feature",
@@ -1518,7 +1559,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.165, 19.512 ] 
 },
-"properties": [ "154316", " 45.0", "  82", "CONALEP TLALNEPANTLA I" ] 
+"properties": [ "154316", " 45", "  82", "CONALEP TLALNEPANTLA I" ] 
 },
 {
  "type": "Feature",
@@ -1526,7 +1567,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.112, 19.538 ] 
 },
-"properties": [ "155319", " 49.0", "  70", "CONALEP TLALNEPANTLA II" ] 
+"properties": [ "155319", " 49", "  70", "CONALEP TLALNEPANTLA II" ] 
 },
 {
  "type": "Feature",
@@ -1534,7 +1575,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.112, 19.538 ] 
 },
-"properties": [ "155324", " 50.0", " 140", "CONALEP TLALNEPANTLA II" ] 
+"properties": [ "155324", " 50", " 140", "CONALEP TLALNEPANTLA II" ] 
 },
 {
  "type": "Feature",
@@ -1542,7 +1583,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.112, 19.538 ] 
 },
-"properties": [ "155336", " 53.0", "  92", "CONALEP TLALNEPANTLA II" ] 
+"properties": [ "155336", " 53", "  92", "CONALEP TLALNEPANTLA II" ] 
 },
 {
  "type": "Feature",
@@ -1550,7 +1591,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.189, 19.577 ] 
 },
-"properties": [ "156303", " 49.0", "  48", "CONALEP TLALNEPANTLA III" ] 
+"properties": [ "156303", " 49", "  48", "CONALEP TLALNEPANTLA III" ] 
 },
 {
  "type": "Feature",
@@ -1558,7 +1599,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.189, 19.577 ] 
 },
-"properties": [ "156306", " 53.0", "  11", "CONALEP TLALNEPANTLA III" ] 
+"properties": [ "156306", " 53", "  11", "CONALEP TLALNEPANTLA III" ] 
 },
 {
  "type": "Feature",
@@ -1566,7 +1607,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.189, 19.577 ] 
 },
-"properties": [ "156310", " 44.0", "  35", "CONALEP TLALNEPANTLA III" ] 
+"properties": [ "156310", " 44", "  35", "CONALEP TLALNEPANTLA III" ] 
 },
 {
  "type": "Feature",
@@ -1574,7 +1615,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.189, 19.577 ] 
 },
-"properties": [ "156313", " 77.0", "  94", "CONALEP TLALNEPANTLA III" ] 
+"properties": [ "156313", " 77", "  94", "CONALEP TLALNEPANTLA III" ] 
 },
 {
  "type": "Feature",
@@ -1582,7 +1623,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.158, 19.627 ] 
 },
-"properties": [ "157306", " 47.0", "  79", "CONALEP TULTITLÁN" ] 
+"properties": [ "157306", " 47", "  79", "CONALEP TULTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -1590,7 +1631,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.158, 19.626 ] 
 },
-"properties": [ "157312", " 46.0", " 137", "CONALEP TULTITLÁN" ] 
+"properties": [ "157312", " 46", " 137", "CONALEP TULTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -1598,7 +1639,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.158, 19.627 ] 
 },
-"properties": [ "157336", " 47.0", " 210", "CONALEP TULTITLÁN" ] 
+"properties": [ "157336", " 47", " 210", "CONALEP TULTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -1606,7 +1647,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.009, 19.289 ] 
 },
-"properties": [ "16000", " 71.0", "1547", "PLANTEL 16, TLÁHUAC MANUEL CHAVARRÍA CHAVARRÍA" ] 
+"properties": [ "16000", " 71", "1547", "PLANTEL 16, TLÁHUAC MANUEL CHAVARRÍA CHAVARRÍA" ] 
 },
 {
  "type": "Feature",
@@ -1614,7 +1655,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.153, 19.322 ] 
 },
-"properties": [ "17000", " 79.0", "1276", "PLANTEL 17, HUAYAMILPAS PEDREGAL" ] 
+"properties": [ "17000", " 79", "1276", "PLANTEL 17, HUAYAMILPAS PEDREGAL" ] 
 },
 {
  "type": "Feature",
@@ -1622,7 +1663,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.208, 19.488 ] 
 },
-"properties": [ "18000", " 60.0", "1330", "PLANTEL 18, TLILHUACA AZCAPOTZALCO" ] 
+"properties": [ "18000", " 60", "1330", "PLANTEL 18, TLILHUACA AZCAPOTZALCO" ] 
 },
 {
  "type": "Feature",
@@ -1630,7 +1671,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.026, 19.556 ] 
 },
-"properties": [ "19000", " 70.0", "1223", "PLANTEL 19, ECATEPEC" ] 
+"properties": [ "19000", " 70", "1223", "PLANTEL 19, ECATEPEC" ] 
 },
 {
  "type": "Feature",
@@ -1638,7 +1679,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.15, 19.501 ] 
 },
-"properties": [ "2000", " 78.0", "3344", "PLANTEL 2, CIEN METROS ELISA ACUÑA ROSSETTI" ] 
+"properties": [ "2000", " 78", "3344", "PLANTEL 2, CIEN METROS ELISA ACUÑA ROSSETTI" ] 
 },
 {
  "type": "Feature",
@@ -1646,7 +1687,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.165,  19.38 ] 
 },
-"properties": [ "20000", " 87.0", "1246", "PLANTEL 20, DEL VALLE MATÍAS ROMERO" ] 
+"properties": [ "20000", " 87", "1246", "PLANTEL 20, DEL VALLE MATÍAS ROMERO" ] 
 },
 {
  "type": "Feature",
@@ -1654,7 +1695,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.174,  19.36 ] 
 },
-"properties": [ "201000", " 75.0", "1272", "CENTRO DE ESTUDIOS DE BACHILLERATO LIC. JESÚS REYES HEROLES" ] 
+"properties": [ "201000", " 75", "1272", "CENTRO DE ESTUDIOS DE BACHILLERATO LIC. JESÚS REYES HEROLES" ] 
 },
 {
  "type": "Feature",
@@ -1662,7 +1703,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.17, 19.449 ] 
 },
-"properties": [ "202000", " 79.0", " 818", "CENTRO DE ESTUDIOS DE BACHILLERATO MTRO. MOISÉS SÁENZ GARZA" ] 
+"properties": [ "202000", " 79", " 818", "CENTRO DE ESTUDIOS DE BACHILLERATO MTRO. MOISÉS SÁENZ GARZA" ] 
 },
 {
  "type": "Feature",
@@ -1670,7 +1711,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.111, 19.386 ] 
 },
-"properties": [ "3000", " 73.0", "3730", "PLANTEL 3, IZTACALCO" ] 
+"properties": [ "3000", " 73", "3730", "PLANTEL 3, IZTACALCO" ] 
 },
 {
  "type": "Feature",
@@ -1678,7 +1719,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.955, 19.331 ] 
 },
-"properties": [ "301000", " 54.0", " 810", "CENTRO DE BACHILLERATO TECNOLÓGICO AGROPECUARIO NÚM. 35" ] 
+"properties": [ "301000", " 54", " 810", "CENTRO DE BACHILLERATO TECNOLÓGICO AGROPECUARIO NÚM. 35" ] 
 },
 {
  "type": "Feature",
@@ -1686,7 +1727,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.12, 19.324 ] 
 },
-"properties": [ "4000", " 79.0", "2908", "PLANTEL 4, CULHUACÁN LÁZARO CÁRDENAS" ] 
+"properties": [ "4000", " 79", "2908", "PLANTEL 4, CULHUACÁN LÁZARO CÁRDENAS" ] 
 },
 {
  "type": "Feature",
@@ -1694,7 +1735,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [  -99.2, 19.375 ] 
 },
-"properties": [ "401000", " 67.0", "1088", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 10" ] 
+"properties": [ "401000", " 67", "1088", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 10" ] 
 },
 {
  "type": "Feature",
@@ -1702,7 +1743,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.28, 19.326 ] 
 },
-"properties": [ "402000", " 60.0", " 769", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 52" ] 
+"properties": [ "402000", " 60", " 769", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 52" ] 
 },
 {
  "type": "Feature",
@@ -1710,7 +1751,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.175, 19.477 ] 
 },
-"properties": [ "403000", " 55.0", "1325", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 4" ] 
+"properties": [ "403000", " 55", "1325", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 4" ] 
 },
 {
  "type": "Feature",
@@ -1718,7 +1759,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.207, 19.503 ] 
 },
-"properties": [ "404000", " 63.0", "1092", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 33" ] 
+"properties": [ "404000", " 63", "1092", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 33" ] 
 },
 {
  "type": "Feature",
@@ -1726,7 +1767,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.157, 19.365 ] 
 },
-"properties": [ "405000", " 65.0", " 963", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 5" ] 
+"properties": [ "405000", " 65", " 963", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 5" ] 
 },
 {
  "type": "Feature",
@@ -1734,7 +1775,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.156,  19.35 ] 
 },
-"properties": [ "406000", " 82.0", " 919", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 2" ] 
+"properties": [ "406000", " 82", " 919", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 2" ] 
 },
 {
  "type": "Feature",
@@ -1750,7 +1791,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.132, 19.415 ] 
 },
-"properties": [ "408000", " 51.0", "1020", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 3" ] 
+"properties": [ "408000", " 51", "1020", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 3" ] 
 },
 {
  "type": "Feature",
@@ -1758,7 +1799,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.141, 19.439 ] 
 },
-"properties": [ "409000", " 63.0", " 850", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 9" ] 
+"properties": [ "409000", " 63", " 850", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 9" ] 
 },
 {
  "type": "Feature",
@@ -1766,7 +1807,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.152, 19.429 ] 
 },
-"properties": [ "410000", " 81.0", " 364", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 11" ] 
+"properties": [ "410000", " 81", " 364", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 11" ] 
 },
 {
  "type": "Feature",
@@ -1774,7 +1815,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.151, 19.429 ] 
 },
-"properties": [ "411000", " 73.0", " 515", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 13" ] 
+"properties": [ "411000", " 73", " 515", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 13" ] 
 },
 {
  "type": "Feature",
@@ -1782,7 +1823,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.124, 19.499 ] 
 },
-"properties": [ "412000", " 68.0", "1084", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 30" ] 
+"properties": [ "412000", " 68", "1084", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 30" ] 
 },
 {
  "type": "Feature",
@@ -1790,7 +1831,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.06, 19.463 ] 
 },
-"properties": [ "413000", " 62.0", "1499", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 54" ] 
+"properties": [ "413000", " 62", "1499", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 54" ] 
 },
 {
  "type": "Feature",
@@ -1798,7 +1839,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.103, 19.507 ] 
 },
-"properties": [ "414000", " 55.0", " 670", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 55" ] 
+"properties": [ "414000", " 55", " 670", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 55" ] 
 },
 {
  "type": "Feature",
@@ -1806,7 +1847,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.101, 19.458 ] 
 },
-"properties": [ "415000", " 59.0", "1003", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 56" ] 
+"properties": [ "415000", " 59", "1003", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 56" ] 
 },
 {
  "type": "Feature",
@@ -1814,7 +1855,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.148, 19.518 ] 
 },
-"properties": [ "416000", " 69.0", " 601", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 166" ] 
+"properties": [ "416000", " 69", " 601", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 166" ] 
 },
 {
  "type": "Feature",
@@ -1822,7 +1863,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.156, 19.535 ] 
 },
-"properties": [ "417000", " 50.0", "1059", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 7" ] 
+"properties": [ "417000", " 50", "1059", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 7" ] 
 },
 {
  "type": "Feature",
@@ -1830,7 +1871,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.094, 19.387 ] 
 },
-"properties": [ "418000", " 58.0", "1124", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 31" ] 
+"properties": [ "418000", " 58", "1124", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 31" ] 
 },
 {
  "type": "Feature",
@@ -1838,7 +1879,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.122, 19.385 ] 
 },
-"properties": [ "419000", " 79.0", " 866", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 76" ] 
+"properties": [ "419000", " 79", " 866", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 76" ] 
 },
 {
  "type": "Feature",
@@ -1846,7 +1887,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.106, 19.345 ] 
 },
-"properties": [ "420000", " 50.0", " 737", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 6" ] 
+"properties": [ "420000", " 50", " 737", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 6" ] 
 },
 {
  "type": "Feature",
@@ -1854,7 +1895,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [    -99, 19.346 ] 
 },
-"properties": [ "421000", " 50.0", " 674", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 42" ] 
+"properties": [ "421000", " 50", " 674", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 42" ] 
 },
 {
  "type": "Feature",
@@ -1862,7 +1903,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.077, 19.307 ] 
 },
-"properties": [ "422000", " 49.0", "1215", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 50" ] 
+"properties": [ "422000", " 49", "1215", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 50" ] 
 },
 {
  "type": "Feature",
@@ -1870,7 +1911,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.052, 19.357 ] 
 },
-"properties": [ "423000", " 53.0", " 963", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 53" ] 
+"properties": [ "423000", " 53", " 963", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 53" ] 
 },
 {
  "type": "Feature",
@@ -1886,7 +1927,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.061, 19.379 ] 
 },
-"properties": [ "425000", " 74.0", "1134", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 153" ] 
+"properties": [ "425000", " 74", "1134", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 153" ] 
 },
 {
  "type": "Feature",
@@ -1894,7 +1935,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.184,  19.44 ] 
 },
-"properties": [ "426000", " 56.0", " 854", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 8" ] 
+"properties": [ "426000", " 56", " 854", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 8" ] 
 },
 {
  "type": "Feature",
@@ -1902,7 +1943,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.191, 19.408 ] 
 },
-"properties": [ "427000", " 53.0", " 452", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 152" ] 
+"properties": [ "427000", " 53", " 452", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 152" ] 
 },
 {
  "type": "Feature",
@@ -1910,7 +1951,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.097, 19.194 ] 
 },
-"properties": [ "428000", " 65.0", " 460", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 167" ] 
+"properties": [ "428000", " 65", " 460", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 167" ] 
 },
 {
  "type": "Feature",
@@ -1918,7 +1959,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.998, 19.293 ] 
 },
-"properties": [ "429000", " 65.0", "1681", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 1" ] 
+"properties": [ "429000", " 65", "1681", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 1" ] 
 },
 {
  "type": "Feature",
@@ -1926,7 +1967,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.161, 19.268 ] 
 },
-"properties": [ "430000", " 66.0", " 662", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 154" ] 
+"properties": [ "430000", " 66", " 662", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 154" ] 
 },
 {
  "type": "Feature",
@@ -1934,7 +1975,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.068, 19.423 ] 
 },
-"properties": [ "431000", " 59.0", " 823", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 32" ] 
+"properties": [ "431000", " 59", " 823", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 32" ] 
 },
 {
  "type": "Feature",
@@ -1942,7 +1983,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.061, 19.433 ] 
 },
-"properties": [ "432000", " 66.0", " 873", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 51" ] 
+"properties": [ "432000", " 66", " 873", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 51" ] 
 },
 {
  "type": "Feature",
@@ -1950,7 +1991,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.127, 19.262 ] 
 },
-"properties": [ "433000", " 54.0", "1236", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 39" ] 
+"properties": [ "433000", " 54", "1236", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 39" ] 
 },
 {
  "type": "Feature",
@@ -1958,7 +1999,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.127, 19.262 ] 
 },
-"properties": [ "434000", " 63.0", "1207", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 49" ] 
+"properties": [ "434000", " 63", "1207", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 49" ] 
 },
 {
  "type": "Feature",
@@ -1966,7 +2007,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.264,  19.57 ] 
 },
-"properties": [ "435000", " 57.0", " 758", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 35" ] 
+"properties": [ "435000", " 57", " 758", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 35" ] 
 },
 {
  "type": "Feature",
@@ -1974,7 +2015,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.246, 19.532 ] 
 },
-"properties": [ "436000", " 49.0", " 351", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 92" ] 
+"properties": [ "436000", " 49", " 351", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 92" ] 
 },
 {
  "type": "Feature",
@@ -1982,7 +2023,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.096, 19.643 ] 
 },
-"properties": [ "437000", " 71.0", " 536", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 133" ] 
+"properties": [ "437000", " 71", " 536", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 133" ] 
 },
 {
  "type": "Feature",
@@ -1990,7 +2031,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.186,  19.69 ] 
 },
-"properties": [ "438000", " 64.0", " 763", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 160" ] 
+"properties": [ "438000", " 64", " 763", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 160" ] 
 },
 {
  "type": "Feature",
@@ -1998,7 +2039,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.834, 19.276 ] 
 },
-"properties": [ "439000", " 58.0", " 601", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 96" ] 
+"properties": [ "439000", " 58", " 601", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 96" ] 
 },
 {
  "type": "Feature",
@@ -2006,7 +2047,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.059, 19.605 ] 
 },
-"properties": [ "440000", " 79.0", "1013", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 29" ] 
+"properties": [ "440000", " 79", "1013", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 29" ] 
 },
 {
  "type": "Feature",
@@ -2014,7 +2055,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.997, 19.593 ] 
 },
-"properties": [ "441000", " 67.0", " 716", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 202" ] 
+"properties": [ "441000", " 67", " 716", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 202" ] 
 },
 {
  "type": "Feature",
@@ -2022,7 +2063,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.02, 19.614 ] 
 },
-"properties": [ "442000", " 52.0", " 809", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 65" ] 
+"properties": [ "442000", " 52", " 809", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 65" ] 
 },
 {
  "type": "Feature",
@@ -2030,7 +2071,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.03, 19.513 ] 
 },
-"properties": [ "443000", " 55.0", " 765", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 119" ] 
+"properties": [ "443000", " 55", " 765", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 119" ] 
 },
 {
  "type": "Feature",
@@ -2038,7 +2079,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.989, 19.402 ] 
 },
-"properties": [ "444000", " 59.0", "1109", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 37" ] 
+"properties": [ "444000", " 59", "1109", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 37" ] 
 },
 {
  "type": "Feature",
@@ -2046,7 +2087,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.981, 19.389 ] 
 },
-"properties": [ "445000", " 56.0", "1161", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 6" ] 
+"properties": [ "445000", " 56", "1161", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 6" ] 
 },
 {
  "type": "Feature",
@@ -2054,7 +2095,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.832, 19.511 ] 
 },
-"properties": [ "446000", " 70.0", " 500", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 97" ] 
+"properties": [ "446000", " 70", " 500", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 97" ] 
 },
 {
  "type": "Feature",
@@ -2062,7 +2103,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.167, 19.512 ] 
 },
-"properties": [ "447000", " 54.0", " 488", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 165" ] 
+"properties": [ "447000", " 54", " 488", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 165" ] 
 },
 {
  "type": "Feature",
@@ -2070,7 +2111,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [  -99.2,  19.56 ] 
 },
-"properties": [ "448000", " 58.0", " 961", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 50" ] 
+"properties": [ "448000", " 58", " 961", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 50" ] 
 },
 {
  "type": "Feature",
@@ -2078,7 +2119,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.185, 19.518 ] 
 },
-"properties": [ "449000", " 48.0", " 652", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 227" ] 
+"properties": [ "449000", " 48", " 652", "CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIOS NÚM. 227" ] 
 },
 {
  "type": "Feature",
@@ -2086,7 +2127,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.179, 19.613 ] 
 },
-"properties": [ "450000", " 54.0", " 726", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 36" ] 
+"properties": [ "450000", " 54", " 726", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 36" ] 
 },
 {
  "type": "Feature",
@@ -2094,7 +2135,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.157, 19.627 ] 
 },
-"properties": [ "451000", " 47.0", " 388", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 95" ] 
+"properties": [ "451000", " 47", " 388", "CENTRO DE ESTUDIOS TECNOLÓGICOS INDUSTRIAL Y DE SERVICIOS NÚM. 95" ] 
 },
 {
  "type": "Feature",
@@ -2102,7 +2143,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.235, 19.528 ] 
 },
-"properties": [ "5000", " 75.0", "3249", "PLANTEL 5, SATÉLITE" ] 
+"properties": [ "5000", " 75", "3249", "PLANTEL 5, SATÉLITE" ] 
 },
 {
  "type": "Feature",
@@ -2110,7 +2151,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.091, 19.467 ] 
 },
-"properties": [ "501100", " 91.0", "1272", "CECyT NÚM. 1 GONZALO VÁZQUEZ VELA RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
+"properties": [ "501100", " 91", "1272", "CECyT NÚM. 1 GONZALO VÁZQUEZ VELA RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
 },
 {
  "type": "Feature",
@@ -2118,7 +2159,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.213, 19.452 ] 
 },
-"properties": [ "502100", " 96.0", "1678", "CECyT NÚM. 2 MIGUEL BERNARD PERALES RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
+"properties": [ "502100", " 96", "1678", "CECyT NÚM. 2 MIGUEL BERNARD PERALES RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
 },
 {
  "type": "Feature",
@@ -2126,7 +2167,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.019, 19.571 ] 
 },
-"properties": [ "503100", "102.0", "1458", "CECyT NÚM. 3 ESTANISLAO RAMÍREZ RUIZ RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
+"properties": [ "503100", "102", "1458", "CECyT NÚM. 3 ESTANISLAO RAMÍREZ RUIZ RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
 },
 {
  "type": "Feature",
@@ -2134,7 +2175,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.215, 19.398 ] 
 },
-"properties": [ "504100", " 89.0", "1748", "CECyT NÚM. 4 LÁZARO CÁRDENAS DEL RÍO RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
+"properties": [ "504100", " 89", "1748", "CECyT NÚM. 4 LÁZARO CÁRDENAS DEL RÍO RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
 },
 {
  "type": "Feature",
@@ -2142,7 +2183,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.15, 19.432 ] 
 },
-"properties": [ "505300", " 93.0", "1149", "CECyT NÚM. 5 BENITO JUÁREZ GARCÍA RAMA DE CIENCIAS SOCIALES Y ADMINISTRATIVAS" ] 
+"properties": [ "505300", " 93", "1149", "CECyT NÚM. 5 BENITO JUÁREZ GARCÍA RAMA DE CIENCIAS SOCIALES Y ADMINISTRATIVAS" ] 
 },
 {
  "type": "Feature",
@@ -2150,7 +2191,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.158, 19.467 ] 
 },
-"properties": [ "506200", "100.0", "1345", "CECyT NÚM. 6 MIGUEL OTHÓN DE MENDIZÁBAL RAMA DE CIENCIAS MÉDICO - BIOLÓGICAS" ] 
+"properties": [ "506200", "100", "1345", "CECyT NÚM. 6 MIGUEL OTHÓN DE MENDIZÁBAL RAMA DE CIENCIAS MÉDICO - BIOLÓGICAS" ] 
 },
 {
  "type": "Feature",
@@ -2158,7 +2199,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.026, 19.345 ] 
 },
-"properties": [ "507100", " 96.0", "1682", "CECyT NÚM. 7 CUAUHTÉMOC RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
+"properties": [ "507100", " 96", "1682", "CECyT NÚM. 7 CUAUHTÉMOC RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
 },
 {
  "type": "Feature",
@@ -2166,7 +2207,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.174, 19.487 ] 
 },
-"properties": [ "508100", " 90.0", "1703", "CECyT NÚM. 8 NARCISO BASSOLS GARCÍA RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
+"properties": [ "508100", " 90", "1703", "CECyT NÚM. 8 NARCISO BASSOLS GARCÍA RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
 },
 {
  "type": "Feature",
@@ -2174,7 +2215,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.175, 19.454 ] 
 },
-"properties": [ "509100", "111.0", " 807", "CECyT NÚM. 9 JUAN DE DIOS BÁTIZ PAREDES RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
+"properties": [ "509100", "111", " 807", "CECyT NÚM. 9 JUAN DE DIOS BÁTIZ PAREDES RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
 },
 {
  "type": "Feature",
@@ -2182,7 +2223,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.08, 19.455 ] 
 },
-"properties": [ "510100", " 87.0", "1861", "CECyT NÚM. 10  CARLOS VALLEJO MÁRQUEZ RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
+"properties": [ "510100", " 87", "1861", "CECyT NÚM. 10  CARLOS VALLEJO MÁRQUEZ RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
 },
 {
  "type": "Feature",
@@ -2190,7 +2231,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.166, 19.453 ] 
 },
-"properties": [ "511100", " 91.0", "1505", "CECyT NÚM. 11 WILFRIDO MASSIEU PÉREZ RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
+"properties": [ "511100", " 91", "1505", "CECyT NÚM. 11 WILFRIDO MASSIEU PÉREZ RAMA DE INGENIERÍA Y CIENCIAS FÍSICO - MATEMÁTICAS" ] 
 },
 {
  "type": "Feature",
@@ -2198,7 +2239,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.152, 19.463 ] 
 },
-"properties": [ "512300", " 87.0", "1559", "CECyT NÚM. 12 JOSÉ MA. MORELOS Y PAVÓN RAMA DE CIENCIAS SOCIALES Y ADMINISTRATIVAS" ] 
+"properties": [ "512300", " 87", "1559", "CECyT NÚM. 12 JOSÉ MA. MORELOS Y PAVÓN RAMA DE CIENCIAS SOCIALES Y ADMINISTRATIVAS" ] 
 },
 {
  "type": "Feature",
@@ -2206,7 +2247,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.129,  19.34 ] 
 },
-"properties": [ "513300", "100.0", "1349", "CECyT NÚM. 13 RICARDO FLORES MAGÓN RAMA DE CIENCIAS SOCIALES Y ADMINISTRATIVAS" ] 
+"properties": [ "513300", "100", "1349", "CECyT NÚM. 13 RICARDO FLORES MAGÓN RAMA DE CIENCIAS SOCIALES Y ADMINISTRATIVAS" ] 
 },
 {
  "type": "Feature",
@@ -2214,7 +2255,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.115, 19.446 ] 
 },
-"properties": [ "514300", " 90.0", " 799", "CECyT NÚM. 14 LUIS ENRIQUE ERRO SOLER RAMA DE CIENCIAS SOCIALES Y ADMINISTRATIVAS" ] 
+"properties": [ "514300", " 90", " 799", "CECyT NÚM. 14 LUIS ENRIQUE ERRO SOLER RAMA DE CIENCIAS SOCIALES Y ADMINISTRATIVAS" ] 
 },
 {
  "type": "Feature",
@@ -2222,7 +2263,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.996, 19.222 ] 
 },
-"properties": [ "515200", " 92.0", " 868", "CECyT NÚM. 15 DIÓDORO ANTÚNEZ ECHEGARAY RAMA DE CIENCIAS MÉDICO - BIOLÓGICAS" ] 
+"properties": [ "515200", " 92", " 868", "CECyT NÚM. 15 DIÓDORO ANTÚNEZ ECHEGARAY RAMA DE CIENCIAS MÉDICO - BIOLÓGICAS" ] 
 },
 {
  "type": "Feature",
@@ -2230,7 +2271,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.061, 19.455 ] 
 },
-"properties": [ "517100", " 88.0", "1295", "CENTRO DE ESTUDIOS TECNOLÓGICOS WALTER CROSS BUCHANAN RAMA DE INGENIERÍA Y CIENCIAS FÍSICO-MATEMÁTICAS" ] 
+"properties": [ "517100", " 88", "1295", "CENTRO DE ESTUDIOS TECNOLÓGICOS WALTER CROSS BUCHANAN RAMA DE INGENIERÍA Y CIENCIAS FÍSICO-MATEMÁTICAS" ] 
 },
 {
  "type": "Feature",
@@ -2238,7 +2279,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.055, 19.358 ] 
 },
-"properties": [ "6000", " 66.0", "3863", "PLANTEL 6, VICENTE GUERRERO" ] 
+"properties": [ "6000", " 66", "3863", "PLANTEL 6, VICENTE GUERRERO" ] 
 },
 {
  "type": "Feature",
@@ -2246,7 +2287,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.195, 19.367 ] 
 },
-"properties": [ "601000", "101.0", "2018", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 8 MIGUEL E. SCHULZ" ] 
+"properties": [ "601000", "101", "2018", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 8 MIGUEL E. SCHULZ" ] 
 },
 {
  "type": "Feature",
@@ -2254,7 +2295,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.204,   19.5 ] 
 },
-"properties": [ "602000", " 93.0", "3757", "COLEGIO DE CIENCIAS Y HUMANIDADES, PLANTEL AZCAPOTZALCO" ] 
+"properties": [ "602000", " 93", "3757", "COLEGIO DE CIENCIAS Y HUMANIDADES, PLANTEL AZCAPOTZALCO" ] 
 },
 {
  "type": "Feature",
@@ -2262,7 +2303,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.157, 19.352 ] 
 },
-"properties": [ "603000", "114.0", "1678", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 6 ANTONIO CASO" ] 
+"properties": [ "603000", "114", "1678", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 6 ANTONIO CASO" ] 
 },
 {
  "type": "Feature",
@@ -2270,7 +2311,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [  -99.2, 19.311 ] 
 },
-"properties": [ "604000", " 98.0", "4102", "COLEGIO DE CIENCIAS Y HUMANIDADES, PLANTEL SUR" ] 
+"properties": [ "604000", " 98", "4102", "COLEGIO DE CIENCIAS Y HUMANIDADES, PLANTEL SUR" ] 
 },
 {
  "type": "Feature",
@@ -2278,7 +2319,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.096, 19.483 ] 
 },
-"properties": [ "605000", "104.0", "1365", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 3 JUSTO SIERRA" ] 
+"properties": [ "605000", "104", "1365", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 3 JUSTO SIERRA" ] 
 },
 {
  "type": "Feature",
@@ -2286,7 +2327,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.128, 19.484 ] 
 },
-"properties": [ "606000", "110.0", "2040", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 9 PEDRO DE ALBA" ] 
+"properties": [ "606000", "110", "2040", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 9 PEDRO DE ALBA" ] 
 },
 {
  "type": "Feature",
@@ -2294,7 +2335,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.142, 19.485 ] 
 },
-"properties": [ "607000", " 96.0", "3685", "COLEGIO DE CIENCIAS Y HUMANIDADES, PLANTEL VALLEJO" ] 
+"properties": [ "607000", " 96", "3685", "COLEGIO DE CIENCIAS Y HUMANIDADES, PLANTEL VALLEJO" ] 
 },
 {
  "type": "Feature",
@@ -2302,7 +2343,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [  -99.1, 19.384 ] 
 },
-"properties": [ "608000", "110.0", "1275", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 2 ERASMO CASTELLANOS QUINTO" ] 
+"properties": [ "608000", "110", "1275", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 2 ERASMO CASTELLANOS QUINTO" ] 
 },
 {
  "type": "Feature",
@@ -2310,7 +2351,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.06, 19.385 ] 
 },
-"properties": [ "609000", " 97.0", "3797", "COLEGIO DE CIENCIAS Y HUMANIDADES, PLANTEL ORIENTE" ] 
+"properties": [ "609000", " 97", "3797", "COLEGIO DE CIENCIAS Y HUMANIDADES, PLANTEL ORIENTE" ] 
 },
 {
  "type": "Feature",
@@ -2318,7 +2359,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.195, 19.404 ] 
 },
-"properties": [ "611000", " 96.0", "1770", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 4 VIDAL CASTAÑEDA Y NÁJERA" ] 
+"properties": [ "611000", " 96", "1770", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 4 VIDAL CASTAÑEDA Y NÁJERA" ] 
 },
 {
  "type": "Feature",
@@ -2326,7 +2367,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.135, 19.308 ] 
 },
-"properties": [ "612000", "106.0", "2974", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 5 JOSÉ VASCONCELOS" ] 
+"properties": [ "612000", "106", "2974", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 5 JOSÉ VASCONCELOS" ] 
 },
 {
  "type": "Feature",
@@ -2334,7 +2375,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.127, 19.419 ] 
 },
-"properties": [ "613000", "100.0", "1840", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 7 EZEQUIEL A. CHÁVEZ" ] 
+"properties": [ "613000", "100", "1840", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 7 EZEQUIEL A. CHÁVEZ" ] 
 },
 {
  "type": "Feature",
@@ -2342,7 +2383,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.122, 19.273 ] 
 },
-"properties": [ "614000", "102.0", "1529", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 1 GABINO BARREDA" ] 
+"properties": [ "614000", "102", "1529", "ESCUELA NACIONAL PREPARATORIA PLANTEL NÚM. 1 GABINO BARREDA" ] 
 },
 {
  "type": "Feature",
@@ -2350,7 +2391,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.244, 19.475 ] 
 },
-"properties": [ "615000", " 90.0", "3855", "COLEGIO DE CIENCIAS Y HUMANIDADES, PLANTEL NAUCALPAN" ] 
+"properties": [ "615000", " 90", "3855", "COLEGIO DE CIENCIAS Y HUMANIDADES, PLANTEL NAUCALPAN" ] 
 },
 {
  "type": "Feature",
@@ -2358,7 +2399,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.07, 19.379 ] 
 },
-"properties": [ "7000", " 62.0", "2802", "PLANTEL 7, IZTAPALAPA" ] 
+"properties": [ "7000", " 62", "2802", "PLANTEL 7, IZTAPALAPA" ] 
 },
 {
  "type": "Feature",
@@ -2366,7 +2407,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.903, 19.641 ] 
 },
-"properties": [ "701000", " 48.0", " 297", "PREPARATORIA OFICIAL NÚM. 107" ] 
+"properties": [ "701000", " 48", " 297", "PREPARATORIA OFICIAL NÚM. 107" ] 
 },
 {
  "type": "Feature",
@@ -2374,7 +2415,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.268, 19.561 ] 
 },
-"properties": [ "702000", " 65.0", " 531", "PREPARATORIA OFICIAL NÚM. 64" ] 
+"properties": [ "702000", " 65", " 531", "PREPARATORIA OFICIAL NÚM. 64" ] 
 },
 {
  "type": "Feature",
@@ -2382,7 +2423,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.266, 19.594 ] 
 },
-"properties": [ "703000", " 68.0", " 667", "PREPARATORIA OFICIAL NÚM. 87" ] 
+"properties": [ "703000", " 68", " 667", "PREPARATORIA OFICIAL NÚM. 87" ] 
 },
 {
  "type": "Feature",
@@ -2390,7 +2431,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.253, 19.558 ] 
 },
-"properties": [ "704000", " 84.0", " 316", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE ATIZAPÁN" ] 
+"properties": [ "704000", " 84", " 316", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE ATIZAPÁN" ] 
 },
 {
  "type": "Feature",
@@ -2398,7 +2439,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.089, 19.615 ] 
 },
-"properties": [ "705000", " 76.0", " 428", "PREPARATORIA OFICIAL NÚM. 52" ] 
+"properties": [ "705000", " 76", " 428", "PREPARATORIA OFICIAL NÚM. 52" ] 
 },
 {
  "type": "Feature",
@@ -2414,7 +2455,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.101, 19.623 ] 
 },
-"properties": [ "707000", " 87.0", " 161", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE COACALCO" ] 
+"properties": [ "707000", " 87", " 161", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE COACALCO" ] 
 },
 {
  "type": "Feature",
@@ -2422,7 +2463,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.221, 19.674 ] 
 },
-"properties": [ "708000", " 62.0", " 545", "PREPARATORIA OFICIAL NÚM. 113" ] 
+"properties": [ "708000", " 62", " 545", "PREPARATORIA OFICIAL NÚM. 113" ] 
 },
 {
  "type": "Feature",
@@ -2430,7 +2471,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.205, 19.687 ] 
 },
-"properties": [ "709000", " 74.0", " 325", "PREPARATORIA OFICIAL NÚM. 67" ] 
+"properties": [ "709000", " 74", " 325", "PREPARATORIA OFICIAL NÚM. 67" ] 
 },
 {
  "type": "Feature",
@@ -2438,7 +2479,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.213, 19.673 ] 
 },
-"properties": [ "710000", " 83.0", " 714", "PREPARATORIA OFICIAL NÚM. 11" ] 
+"properties": [ "710000", " 83", " 714", "PREPARATORIA OFICIAL NÚM. 11" ] 
 },
 {
  "type": "Feature",
@@ -2446,7 +2487,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.233, 19.617 ] 
 },
-"properties": [ "711000", " 55.0", " 673", "PREPARATORIA OFICIAL NÚM. 114" ] 
+"properties": [ "711000", " 55", " 673", "PREPARATORIA OFICIAL NÚM. 114" ] 
 },
 {
  "type": "Feature",
@@ -2454,7 +2495,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.204, 19.649 ] 
 },
-"properties": [ "712000", " 98.0", " 352", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE CUAUTITLÁN IZCALLI" ] 
+"properties": [ "712000", " 98", " 352", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE CUAUTITLÁN IZCALLI" ] 
 },
 {
  "type": "Feature",
@@ -2462,7 +2503,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.886, 19.267 ] 
 },
-"properties": [ "713000", " 72.0", " 772", "PREPARATORIA OFICIAL NÚM. 30" ] 
+"properties": [ "713000", " 72", " 772", "PREPARATORIA OFICIAL NÚM. 30" ] 
 },
 {
  "type": "Feature",
@@ -2470,7 +2511,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.916, 19.288 ] 
 },
-"properties": [ "714000", " 56.0", " 770", "PREPARATORIA OFICIAL NÚM. 54" ] 
+"properties": [ "714000", " 56", " 770", "PREPARATORIA OFICIAL NÚM. 54" ] 
 },
 {
  "type": "Feature",
@@ -2486,7 +2527,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.889, 19.267 ] 
 },
-"properties": [ "716000", " 84.0", " 517", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE CHALCO" ] 
+"properties": [ "716000", " 84", " 517", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE CHALCO" ] 
 },
 {
  "type": "Feature",
@@ -2494,7 +2535,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.903,  19.42 ] 
 },
-"properties": [ "717000", " 49.0", " 354", "PREPARATORIA OFICIAL NÚM. 15" ] 
+"properties": [ "717000", " 49", " 354", "PREPARATORIA OFICIAL NÚM. 15" ] 
 },
 {
  "type": "Feature",
@@ -2502,7 +2543,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.926, 19.402 ] 
 },
-"properties": [ "718000", " 51.0", " 408", "PREPARATORIA OFICIAL NÚM. 55" ] 
+"properties": [ "718000", " 51", " 408", "PREPARATORIA OFICIAL NÚM. 55" ] 
 },
 {
  "type": "Feature",
@@ -2510,7 +2551,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.943, 19.441 ] 
 },
-"properties": [ "719000", " 53.0", " 393", "PREPARATORIA OFICIAL NÚM. 16" ] 
+"properties": [ "719000", " 53", " 393", "PREPARATORIA OFICIAL NÚM. 16" ] 
 },
 {
  "type": "Feature",
@@ -2518,7 +2559,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.965, 19.419 ] 
 },
-"properties": [ "720000", " 55.0", " 107", "PREPARATORIA OFICIAL NÚM. 62" ] 
+"properties": [ "720000", " 55", " 107", "PREPARATORIA OFICIAL NÚM. 62" ] 
 },
 {
  "type": "Feature",
@@ -2526,7 +2567,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.975, 19.408 ] 
 },
-"properties": [ "721000", " 55.0", " 322", "PREPARATORIA OFICIAL NÚM. 75" ] 
+"properties": [ "721000", " 55", " 322", "PREPARATORIA OFICIAL NÚM. 75" ] 
 },
 {
  "type": "Feature",
@@ -2534,7 +2575,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.973,  19.44 ] 
 },
-"properties": [ "722000", " 51.0", " 196", "PREPARATORIA OFICIAL NÚM. 85" ] 
+"properties": [ "722000", " 51", " 196", "PREPARATORIA OFICIAL NÚM. 85" ] 
 },
 {
  "type": "Feature",
@@ -2542,7 +2583,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.958, 19.388 ] 
 },
-"properties": [ "723000", " 49.0", "  97", "PREPARATORIA OFICIAL NÚM. 98" ] 
+"properties": [ "723000", " 49", "  97", "PREPARATORIA OFICIAL NÚM. 98" ] 
 },
 {
  "type": "Feature",
@@ -2550,7 +2591,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.927, 19.417 ] 
 },
-"properties": [ "724000", " 58.0", " 540", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 03 CHIMALHUACÁN SUR" ] 
+"properties": [ "724000", " 58", " 540", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 03 CHIMALHUACÁN SUR" ] 
 },
 {
  "type": "Feature",
@@ -2558,7 +2599,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.009,  19.64 ] 
 },
-"properties": [ "725000", " 51.0", " 325", "PREPARATORIA OFICIAL NÚM. 48" ] 
+"properties": [ "725000", " 51", " 325", "PREPARATORIA OFICIAL NÚM. 48" ] 
 },
 {
  "type": "Feature",
@@ -2566,7 +2607,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.067, 19.525 ] 
 },
-"properties": [ "726000", " 65.0", " 222", "PREPARATORIA OFICIAL NÚM. 49" ] 
+"properties": [ "726000", " 65", " 222", "PREPARATORIA OFICIAL NÚM. 49" ] 
 },
 {
  "type": "Feature",
@@ -2574,7 +2615,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.996, 19.595 ] 
 },
-"properties": [ "727000", " 73.0", " 532", "PREPARATORIA OFICIAL NÚM. 81" ] 
+"properties": [ "727000", " 73", " 532", "PREPARATORIA OFICIAL NÚM. 81" ] 
 },
 {
  "type": "Feature",
@@ -2590,7 +2631,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.071, 19.574 ] 
 },
-"properties": [ "729000", " 49.0", " 303", "PREPARATORIA OFICIAL NÚM. 110" ] 
+"properties": [ "729000", " 49", " 303", "PREPARATORIA OFICIAL NÚM. 110" ] 
 },
 {
  "type": "Feature",
@@ -2598,7 +2639,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.022, 19.518 ] 
 },
-"properties": [ "730000", " 62.0", " 720", "PREPARATORIA OFICIAL NÚM. 115" ] 
+"properties": [ "730000", " 62", " 720", "PREPARATORIA OFICIAL NÚM. 115" ] 
 },
 {
  "type": "Feature",
@@ -2606,7 +2647,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.041, 19.605 ] 
 },
-"properties": [ "731000", " 92.0", " 287", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE ECATEPEC" ] 
+"properties": [ "731000", " 92", " 287", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE ECATEPEC" ] 
 },
 {
  "type": "Feature",
@@ -2614,7 +2655,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.027, 19.602 ] 
 },
-"properties": [ "732000", " 54.0", " 457", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 10 ECATEPEC NORTE" ] 
+"properties": [ "732000", " 54", " 457", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 10 ECATEPEC NORTE" ] 
 },
 {
  "type": "Feature",
@@ -2622,7 +2663,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.068, 19.514 ] 
 },
-"properties": [ "733000", " 50.0", " 407", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 02 ECATEPEC SUR" ] 
+"properties": [ "733000", " 50", " 407", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 02 ECATEPEC SUR" ] 
 },
 {
  "type": "Feature",
@@ -2630,7 +2671,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.298, 19.375 ] 
 },
-"properties": [ "734000", " 69.0", " 430", "PREPARATORIA OFICIAL NÚM. 89" ] 
+"properties": [ "734000", " 69", " 430", "PREPARATORIA OFICIAL NÚM. 89" ] 
 },
 {
  "type": "Feature",
@@ -2646,7 +2687,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.881, 19.312 ] 
 },
-"properties": [ "736000", " 70.0", " 553", "PREPARATORIA OFICIAL NÚM. 74" ] 
+"properties": [ "736000", " 70", " 553", "PREPARATORIA OFICIAL NÚM. 74" ] 
 },
 {
  "type": "Feature",
@@ -2654,7 +2695,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.255, 19.454 ] 
 },
-"properties": [ "737000", " 65.0", " 679", "PREPARATORIA OFICIAL NÚM. 24" ] 
+"properties": [ "737000", " 65", " 679", "PREPARATORIA OFICIAL NÚM. 24" ] 
 },
 {
  "type": "Feature",
@@ -2662,7 +2703,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.27, 19.502 ] 
 },
-"properties": [ "738000", " 82.0", " 281", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE NAUCALPAN" ] 
+"properties": [ "738000", " 82", " 281", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE NAUCALPAN" ] 
 },
 {
  "type": "Feature",
@@ -2670,7 +2711,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.063, 19.493 ] 
 },
-"properties": [ "739000", " 71.0", " 546", "PREPARATORIA OFICIAL NÚM. 12" ] 
+"properties": [ "739000", " 71", " 546", "PREPARATORIA OFICIAL NÚM. 12" ] 
 },
 {
  "type": "Feature",
@@ -2678,7 +2719,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.052, 19.408 ] 
 },
-"properties": [ "740000", " 51.0", " 263", "PREPARATORIA OFICIAL NÚM. 18" ] 
+"properties": [ "740000", " 51", " 263", "PREPARATORIA OFICIAL NÚM. 18" ] 
 },
 {
  "type": "Feature",
@@ -2686,7 +2727,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.982, 19.375 ] 
 },
-"properties": [ "741000", " 60.0", " 328", "PREPARATORIA OFICIAL NÚM. 28" ] 
+"properties": [ "741000", " 60", " 328", "PREPARATORIA OFICIAL NÚM. 28" ] 
 },
 {
  "type": "Feature",
@@ -2694,7 +2735,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.005, 19.383 ] 
 },
-"properties": [ "742000", " 57.0", " 559", "PREPARATORIA OFICIAL NÚM. 82" ] 
+"properties": [ "742000", " 57", " 559", "PREPARATORIA OFICIAL NÚM. 82" ] 
 },
 {
  "type": "Feature",
@@ -2702,7 +2743,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.043, 19.399 ] 
 },
-"properties": [ "743000", " 67.0", " 215", "PREPARATORIA OFICIAL NÚM. 86" ] 
+"properties": [ "743000", " 67", " 215", "PREPARATORIA OFICIAL NÚM. 86" ] 
 },
 {
  "type": "Feature",
@@ -2710,7 +2751,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.048, 19.429 ] 
 },
-"properties": [ "744000", " 52.0", " 478", "PREPARATORIA OFICIAL NÚM. 95" ] 
+"properties": [ "744000", " 52", " 478", "PREPARATORIA OFICIAL NÚM. 95" ] 
 },
 {
  "type": "Feature",
@@ -2718,7 +2759,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.01, 19.406 ] 
 },
-"properties": [ "745000", " 86.0", " 390", "PREPARATORIA OFICIAL ANEXA A LA NORMAL NÚM. 1 DE NEZAHUALCÓYOTL" ] 
+"properties": [ "745000", " 86", " 390", "PREPARATORIA OFICIAL ANEXA A LA NORMAL NÚM. 1 DE NEZAHUALCÓYOTL" ] 
 },
 {
  "type": "Feature",
@@ -2726,7 +2767,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.065, 19.487 ] 
 },
-"properties": [ "746000", " 85.0", "  81", "PREPARATORIA OFICIAL ANEXA A LA NORMAL NÚM. 2 DE NEZAHUALCÓYOTL" ] 
+"properties": [ "746000", " 85", "  81", "PREPARATORIA OFICIAL ANEXA A LA NORMAL NÚM. 2 DE NEZAHUALCÓYOTL" ] 
 },
 {
  "type": "Feature",
@@ -2734,7 +2775,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.013, 19.398 ] 
 },
-"properties": [ "747000", " 80.0", " 220", "PREPARATORIA OFICIAL ANEXA A LA NORMAL NÚM. 3 DE NEZAHUALCÓYOTL" ] 
+"properties": [ "747000", " 80", " 220", "PREPARATORIA OFICIAL ANEXA A LA NORMAL NÚM. 3 DE NEZAHUALCÓYOTL" ] 
 },
 {
  "type": "Feature",
@@ -2742,7 +2783,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.025, 19.418 ] 
 },
-"properties": [ "748000", " 76.0", " 263", "PREPARATORIA OFICIAL ANEXA A LA NORMAL NÚM. 4 DE NEZAHUALCÓYOTL" ] 
+"properties": [ "748000", " 76", " 263", "PREPARATORIA OFICIAL ANEXA A LA NORMAL NÚM. 4 DE NEZAHUALCÓYOTL" ] 
 },
 {
  "type": "Feature",
@@ -2750,7 +2791,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.965, 19.358 ] 
 },
-"properties": [ "749000", " 70.0", " 749", "PREPARATORIA OFICIAL NÚM. 7" ] 
+"properties": [ "749000", " 70", " 749", "PREPARATORIA OFICIAL NÚM. 7" ] 
 },
 {
  "type": "Feature",
@@ -2758,7 +2799,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.968, 19.358 ] 
 },
-"properties": [ "750000", " 81.0", " 416", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE LOS REYES ACAQUILPAN" ] 
+"properties": [ "750000", " 81", " 416", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE LOS REYES ACAQUILPAN" ] 
 },
 {
  "type": "Feature",
@@ -2766,7 +2807,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.006, 19.674 ] 
 },
-"properties": [ "751000", " 70.0", " 558", "PREPARATORIA OFICIAL NÚM. 22" ] 
+"properties": [ "751000", " 70", " 558", "PREPARATORIA OFICIAL NÚM. 22" ] 
 },
 {
  "type": "Feature",
@@ -2774,7 +2815,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.998,  19.77 ] 
 },
-"properties": [ "752000", " 67.0", " 273", "PREPARATORIA OFICIAL NÚM. 37" ] 
+"properties": [ "752000", " 67", " 273", "PREPARATORIA OFICIAL NÚM. 37" ] 
 },
 {
  "type": "Feature",
@@ -2782,7 +2823,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.97, 19.689 ] 
 },
-"properties": [ "753000", " 45.0", " 314", "PREPARATORIA OFICIAL NÚM. 73" ] 
+"properties": [ "753000", " 45", " 314", "PREPARATORIA OFICIAL NÚM. 73" ] 
 },
 {
  "type": "Feature",
@@ -2790,7 +2831,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.975,  19.67 ] 
 },
-"properties": [ "754000", " 68.0", " 446", "PREPARATORIA OFICIAL NÚM. 216" ] 
+"properties": [ "754000", " 68", " 446", "PREPARATORIA OFICIAL NÚM. 216" ] 
 },
 {
  "type": "Feature",
@@ -2798,7 +2839,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.225, 19.709 ] 
 },
-"properties": [ "755000", " 74.0", " 376", "PREPARATORIA OFICIAL NÚM. 27" ] 
+"properties": [ "755000", " 74", " 376", "PREPARATORIA OFICIAL NÚM. 27" ] 
 },
 {
  "type": "Feature",
@@ -2806,7 +2847,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.774, 19.523 ] 
 },
-"properties": [ "756000", " 60.0", " 167", "PREPARATORIA OFICIAL NÚM. 79" ] 
+"properties": [ "756000", " 60", " 167", "PREPARATORIA OFICIAL NÚM. 79" ] 
 },
 {
  "type": "Feature",
@@ -2814,7 +2855,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.884, 19.506 ] 
 },
-"properties": [ "757000", " 78.0", "1010", "PREPARATORIA OFICIAL NÚM. 100" ] 
+"properties": [ "757000", " 78", "1010", "PREPARATORIA OFICIAL NÚM. 100" ] 
 },
 {
  "type": "Feature",
@@ -2822,7 +2863,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.982, 19.617 ] 
 },
-"properties": [ "758000", " 91.0", " 225", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE TEXCOCO" ] 
+"properties": [ "758000", " 91", " 225", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE TEXCOCO" ] 
 },
 {
  "type": "Feature",
@@ -2830,7 +2871,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.114, 19.515 ] 
 },
-"properties": [ "759000", " 51.0", " 259", "PREPARATORIA OFICIAL NÚM. 69" ] 
+"properties": [ "759000", " 51", " 259", "PREPARATORIA OFICIAL NÚM. 69" ] 
 },
 {
  "type": "Feature",
@@ -2838,7 +2879,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.113, 19.534 ] 
 },
-"properties": [ "760000", " 53.0", " 412", "PREPARATORIA OFICIAL NÚM. 97" ] 
+"properties": [ "760000", " 53", " 412", "PREPARATORIA OFICIAL NÚM. 97" ] 
 },
 {
  "type": "Feature",
@@ -2854,7 +2895,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.176, 19.521 ] 
 },
-"properties": [ "762000", " 77.0", " 443", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE TLALNEPANTLA" ] 
+"properties": [ "762000", " 77", " 443", "PREPARATORIA OFICIAL ANEXA A LA NORMAL DE TLALNEPANTLA" ] 
 },
 {
  "type": "Feature",
@@ -2862,7 +2903,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.109, 19.692 ] 
 },
-"properties": [ "763000", " 57.0", " 334", "PREPARATORIA OFICIAL NÚM. 31" ] 
+"properties": [ "763000", " 57", " 334", "PREPARATORIA OFICIAL NÚM. 31" ] 
 },
 {
  "type": "Feature",
@@ -2870,7 +2911,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.094, 19.682 ] 
 },
-"properties": [ "764000", " 60.0", " 434", "PREPARATORIA OFICIAL NÚM. 34" ] 
+"properties": [ "764000", " 60", " 434", "PREPARATORIA OFICIAL NÚM. 34" ] 
 },
 {
  "type": "Feature",
@@ -2878,7 +2919,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.176, 19.607 ] 
 },
-"properties": [ "765000", " 69.0", " 321", "PREPARATORIA OFICIAL NÚM. 68" ] 
+"properties": [ "765000", " 69", " 321", "PREPARATORIA OFICIAL NÚM. 68" ] 
 },
 {
  "type": "Feature",
@@ -2886,7 +2927,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.131, 19.632 ] 
 },
-"properties": [ "766000", " 70.0", " 323", "PREPARATORIA OFICIAL NÚM. 105" ] 
+"properties": [ "766000", " 70", " 323", "PREPARATORIA OFICIAL NÚM. 105" ] 
 },
 {
  "type": "Feature",
@@ -2894,7 +2935,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.955, 19.275 ] 
 },
-"properties": [ "767000", " 53.0", " 345", "PREPARATORIA OFICIAL NÚM. 88" ] 
+"properties": [ "767000", " 53", " 345", "PREPARATORIA OFICIAL NÚM. 88" ] 
 },
 {
  "type": "Feature",
@@ -2902,7 +2943,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.956, 19.323 ] 
 },
-"properties": [ "768000", " 53.0", " 415", "PREPARATORIA OFICIAL NÚM. 92" ] 
+"properties": [ "768000", " 53", " 415", "PREPARATORIA OFICIAL NÚM. 92" ] 
 },
 {
  "type": "Feature",
@@ -2910,7 +2951,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.956, 19.287 ] 
 },
-"properties": [ "769000", " 51.0", " 153", "PREPARATORIA OFICIAL NÚM. 96" ] 
+"properties": [ "769000", " 51", " 153", "PREPARATORIA OFICIAL NÚM. 96" ] 
 },
 {
  "type": "Feature",
@@ -2918,7 +2959,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.953, 19.297 ] 
 },
-"properties": [ "770000", " 55.0", " 450", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 04 VALLE DE CHALCO SOLIDARIDAD" ] 
+"properties": [ "770000", " 55", " 450", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 04 VALLE DE CHALCO SOLIDARIDAD" ] 
 },
 {
  "type": "Feature",
@@ -2942,7 +2983,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.225, 19.651 ] 
 },
-"properties": [ "773000", " 62.0", " 656", "PREPARATORIA OFICIAL NÚM. 126" ] 
+"properties": [ "773000", " 62", " 656", "PREPARATORIA OFICIAL NÚM. 126" ] 
 },
 {
  "type": "Feature",
@@ -2950,7 +2991,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.984, 19.648 ] 
 },
-"properties": [ "774000", " 45.0", "  93", "PREPARATORIA OFICIAL NÚM. 125" ] 
+"properties": [ "774000", " 45", "  93", "PREPARATORIA OFICIAL NÚM. 125" ] 
 },
 {
  "type": "Feature",
@@ -2958,7 +2999,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.925, 19.233 ] 
 },
-"properties": [ "775000", " 47.0", " 272", "PREPARATORIA OFICIAL NÚM. 127" ] 
+"properties": [ "775000", " 47", " 272", "PREPARATORIA OFICIAL NÚM. 127" ] 
 },
 {
  "type": "Feature",
@@ -2966,7 +3007,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.102,  19.65 ] 
 },
-"properties": [ "776000", " 80.0", " 434", "PREPARATORIA OFICIAL NÚM. 137" ] 
+"properties": [ "776000", " 80", " 434", "PREPARATORIA OFICIAL NÚM. 137" ] 
 },
 {
  "type": "Feature",
@@ -2974,7 +3015,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.904,  19.29 ] 
 },
-"properties": [ "777000", " 45.0", " 189", "PREPARATORIA OFICIAL NÚM. 122" ] 
+"properties": [ "777000", " 45", " 189", "PREPARATORIA OFICIAL NÚM. 122" ] 
 },
 {
  "type": "Feature",
@@ -2982,7 +3023,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.912, 19.323 ] 
 },
-"properties": [ "778000", " 49.0", "  92", "PREPARATORIA OFICIAL NÚM. 124" ] 
+"properties": [ "778000", " 49", "  92", "PREPARATORIA OFICIAL NÚM. 124" ] 
 },
 {
  "type": "Feature",
@@ -2990,7 +3031,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.007, 19.419 ] 
 },
-"properties": [ "779000", " 54.0", " 482", "PREPARATORIA OFICIAL NÚM. 121" ] 
+"properties": [ "779000", " 54", " 482", "PREPARATORIA OFICIAL NÚM. 121" ] 
 },
 {
  "type": "Feature",
@@ -3006,7 +3047,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.935, 19.297 ] 
 },
-"properties": [ "781000", " 48.0", "  86", "PREPARATORIA OFICIAL NÚM. 123" ] 
+"properties": [ "781000", " 48", "  86", "PREPARATORIA OFICIAL NÚM. 123" ] 
 },
 {
  "type": "Feature",
@@ -3022,7 +3063,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.073, 19.549 ] 
 },
-"properties": [ "783000", " 47.0", " 195", "PREPARATORIA OFICIAL NÚM. 128" ] 
+"properties": [ "783000", " 47", " 195", "PREPARATORIA OFICIAL NÚM. 128" ] 
 },
 {
  "type": "Feature",
@@ -3030,7 +3071,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.273, 19.415 ] 
 },
-"properties": [ "784000", " 53.0", " 340", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 17 HUIXQUILUCAN NORTE" ] 
+"properties": [ "784000", " 53", " 340", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 17 HUIXQUILUCAN NORTE" ] 
 },
 {
  "type": "Feature",
@@ -3038,7 +3079,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.87, 19.304 ] 
 },
-"properties": [ "785000", " 52.0", " 625", "PREPARATORIA OFICIAL NÚM. 141" ] 
+"properties": [ "785000", " 52", " 625", "PREPARATORIA OFICIAL NÚM. 141" ] 
 },
 {
  "type": "Feature",
@@ -3046,7 +3087,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.851, 19.341 ] 
 },
-"properties": [ "786000", " 64.0", "  33", "PREPARATORIA OFICIAL NÚM. 185" ] 
+"properties": [ "786000", " 64", "  33", "PREPARATORIA OFICIAL NÚM. 185" ] 
 },
 {
  "type": "Feature",
@@ -3054,7 +3095,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.863, 19.302 ] 
 },
-"properties": [ "787000", " 51.0", " 224", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 18 IXTAPALUCA" ] 
+"properties": [ "787000", " 51", " 224", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 18 IXTAPALUCA" ] 
 },
 {
  "type": "Feature",
@@ -3062,7 +3103,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.298, 19.617 ] 
 },
-"properties": [ "788000", " 73.0", " 425", "PREPARATORIA OFICIAL NÚM. 148" ] 
+"properties": [ "788000", " 73", " 425", "PREPARATORIA OFICIAL NÚM. 148" ] 
 },
 {
  "type": "Feature",
@@ -3070,7 +3111,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.885,  19.42 ] 
 },
-"properties": [ "789000", " 56.0", " 472", "PREPARATORIA OFICIAL NÚM. 143" ] 
+"properties": [ "789000", " 56", " 472", "PREPARATORIA OFICIAL NÚM. 143" ] 
 },
 {
  "type": "Feature",
@@ -3078,7 +3119,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.281, 19.389 ] 
 },
-"properties": [ "790000", " 52.0", " 324", "PREPARATORIA OFICIAL NÚM. 149" ] 
+"properties": [ "790000", " 52", " 324", "PREPARATORIA OFICIAL NÚM. 149" ] 
 },
 {
  "type": "Feature",
@@ -3094,7 +3135,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.017, 19.629 ] 
 },
-"properties": [ "792000", " 50.0", " 325", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 19 TECÁMAC" ] 
+"properties": [ "792000", " 50", " 325", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 19 TECÁMAC" ] 
 },
 {
  "type": "Feature",
@@ -3102,7 +3143,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.283, 19.696 ] 
 },
-"properties": [ "793000", " 50.0", " 222", "PREPARATORIA OFICIAL NÚM. 153" ] 
+"properties": [ "793000", " 50", " 222", "PREPARATORIA OFICIAL NÚM. 153" ] 
 },
 {
  "type": "Feature",
@@ -3110,7 +3151,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.858, 19.484 ] 
 },
-"properties": [ "794000", " 58.0", " 328", "PREPARATORIA OFICIAL NÚM. 188" ] 
+"properties": [ "794000", " 58", " 328", "PREPARATORIA OFICIAL NÚM. 188" ] 
 },
 {
  "type": "Feature",
@@ -3118,7 +3159,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.946, 19.361 ] 
 },
-"properties": [ "795000", " 58.0", " 401", "PREPARATORIA OFICIAL NÚM. 163" ] 
+"properties": [ "795000", " 58", " 401", "PREPARATORIA OFICIAL NÚM. 163" ] 
 },
 {
  "type": "Feature",
@@ -3126,7 +3167,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.944,  19.36 ] 
 },
-"properties": [ "796000", " 47.0", "  30", "PREPARATORIA OFICIAL NÚM. 171" ] 
+"properties": [ "796000", " 47", "  30", "PREPARATORIA OFICIAL NÚM. 171" ] 
 },
 {
  "type": "Feature",
@@ -3134,7 +3175,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.945,  19.34 ] 
 },
-"properties": [ "797000", " 50.0", "  53", "PREPARATORIA OFICIAL NÚM. 184" ] 
+"properties": [ "797000", " 50", "  53", "PREPARATORIA OFICIAL NÚM. 184" ] 
 },
 {
  "type": "Feature",
@@ -3142,7 +3183,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.934, 19.428 ] 
 },
-"properties": [ "798000", " 53.0", " 165", "PREPARATORIA OFICIAL NÚM. 164" ] 
+"properties": [ "798000", " 53", " 165", "PREPARATORIA OFICIAL NÚM. 164" ] 
 },
 {
  "type": "Feature",
@@ -3150,7 +3191,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.895, 19.307 ] 
 },
-"properties": [ "799000", " 61.0", " 926", "PREPARATORIA OFICIAL NÚM. 161" ] 
+"properties": [ "799000", " 61", " 926", "PREPARATORIA OFICIAL NÚM. 161" ] 
 },
 {
  "type": "Feature",
@@ -3158,7 +3199,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.285, 19.364 ] 
 },
-"properties": [ "8000", " 71.0", "1295", "PLANTEL 8, CUAJIMALPA" ] 
+"properties": [ "8000", " 71", "1295", "PLANTEL 8, CUAJIMALPA" ] 
 },
 {
  "type": "Feature",
@@ -3166,7 +3207,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.935, 19.624 ] 
 },
-"properties": [ "801053", " 70.0", " 123", "CENTRO DE BACHILLERATO TECNOLÓGICO  NÚM. 1 DR. DONATO ALARCÓN SEGOVIA" ] 
+"properties": [ "801053", " 70", " 123", "CENTRO DE BACHILLERATO TECNOLÓGICO  NÚM. 1 DR. DONATO ALARCÓN SEGOVIA" ] 
 },
 {
  "type": "Feature",
@@ -3174,7 +3215,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.935, 19.624 ] 
 },
-"properties": [ "801070", " 73.0", " 185", "CENTRO DE BACHILLERATO TECNOLÓGICO  NÚM. 1 DR. DONATO ALARCÓN SEGOVIA" ] 
+"properties": [ "801070", " 73", " 185", "CENTRO DE BACHILLERATO TECNOLÓGICO  NÚM. 1 DR. DONATO ALARCÓN SEGOVIA" ] 
 },
 {
  "type": "Feature",
@@ -3182,7 +3223,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.935, 19.624 ] 
 },
-"properties": [ "801076", " 71.0", " 123", "CENTRO DE BACHILLERATO TECNOLÓGICO  NÚM. 1 DR. DONATO ALARCÓN SEGOVIA" ] 
+"properties": [ "801076", " 71", " 123", "CENTRO DE BACHILLERATO TECNOLÓGICO  NÚM. 1 DR. DONATO ALARCÓN SEGOVIA" ] 
 },
 {
  "type": "Feature",
@@ -3190,7 +3231,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.935, 19.624 ] 
 },
-"properties": [ "801077", " 50.0", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO  NÚM. 1 DR. DONATO ALARCÓN SEGOVIA" ] 
+"properties": [ "801077", " 50", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO  NÚM. 1 DR. DONATO ALARCÓN SEGOVIA" ] 
 },
 {
  "type": "Feature",
@@ -3198,7 +3239,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.962, 19.617 ] 
 },
-"properties": [ "802039", " 53.0", "  52", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 OCTAVIO PAZ" ] 
+"properties": [ "802039", " 53", "  52", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 OCTAVIO PAZ" ] 
 },
 {
  "type": "Feature",
@@ -3206,7 +3247,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.954, 19.723 ] 
 },
-"properties": [ "802046", " 63.0", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 OCTAVIO PAZ" ] 
+"properties": [ "802046", " 63", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 OCTAVIO PAZ" ] 
 },
 {
  "type": "Feature",
@@ -3222,7 +3263,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.088, 19.624 ] 
 },
-"properties": [ "803036", " 65.0", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO MARÍA LUISA MARINA DE SUÁREZ" ] 
+"properties": [ "803036", " 65", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO MARÍA LUISA MARINA DE SUÁREZ" ] 
 },
 {
  "type": "Feature",
@@ -3230,7 +3271,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.087, 19.627 ] 
 },
-"properties": [ "803039", " 59.0", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO MARÍA LUISA MARINA DE SUÁREZ" ] 
+"properties": [ "803039", " 59", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO MARÍA LUISA MARINA DE SUÁREZ" ] 
 },
 {
  "type": "Feature",
@@ -3238,7 +3279,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.087, 19.627 ] 
 },
-"properties": [ "803046", " 58.0", " 238", "CENTRO DE BACHILLERATO TECNOLÓGICO MARÍA LUISA MARINA DE SUÁREZ" ] 
+"properties": [ "803046", " 58", " 238", "CENTRO DE BACHILLERATO TECNOLÓGICO MARÍA LUISA MARINA DE SUÁREZ" ] 
 },
 {
  "type": "Feature",
@@ -3246,7 +3287,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.101, 19.622 ] 
 },
-"properties": [ "804067", " 80.0", " 169", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL COACALCO" ] 
+"properties": [ "804067", " 80", " 169", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL COACALCO" ] 
 },
 {
  "type": "Feature",
@@ -3254,7 +3295,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.101, 19.622 ] 
 },
-"properties": [ "804085", " 65.0", " 255", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL COACALCO" ] 
+"properties": [ "804085", " 65", " 255", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL COACALCO" ] 
 },
 {
  "type": "Feature",
@@ -3262,7 +3303,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.101, 19.622 ] 
 },
-"properties": [ "804087", " 81.0", " 176", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL COACALCO" ] 
+"properties": [ "804087", " 81", " 176", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL COACALCO" ] 
 },
 {
  "type": "Feature",
@@ -3270,7 +3311,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.18, 19.672 ] 
 },
-"properties": [ "805036", " 72.0", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO GABRIEL V. ALCOCER" ] 
+"properties": [ "805036", " 72", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO GABRIEL V. ALCOCER" ] 
 },
 {
  "type": "Feature",
@@ -3278,7 +3319,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.18, 19.672 ] 
 },
-"properties": [ "805039", " 63.0", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO GABRIEL V. ALCOCER" ] 
+"properties": [ "805039", " 63", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO GABRIEL V. ALCOCER" ] 
 },
 {
  "type": "Feature",
@@ -3286,7 +3327,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.18, 19.672 ] 
 },
-"properties": [ "805046", " 70.0", " 119", "CENTRO DE BACHILLERATO TECNOLÓGICO GABRIEL V. ALCOCER" ] 
+"properties": [ "805046", " 70", " 119", "CENTRO DE BACHILLERATO TECNOLÓGICO GABRIEL V. ALCOCER" ] 
 },
 {
  "type": "Feature",
@@ -3294,7 +3335,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.18, 19.672 ] 
 },
-"properties": [ "805071", " 70.0", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO GABRIEL V. ALCOCER" ] 
+"properties": [ "805071", " 70", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO GABRIEL V. ALCOCER" ] 
 },
 {
  "type": "Feature",
@@ -3302,7 +3343,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.18, 19.672 ] 
 },
-"properties": [ "805076", " 81.0", " 125", "CENTRO DE BACHILLERATO TECNOLÓGICO GABRIEL V. ALCOCER" ] 
+"properties": [ "805076", " 81", " 125", "CENTRO DE BACHILLERATO TECNOLÓGICO GABRIEL V. ALCOCER" ] 
 },
 {
  "type": "Feature",
@@ -3310,7 +3351,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.22, 19.628 ] 
 },
-"properties": [ "806021", " 70.0", " 218", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CUAUTITLÁN IZCALLI" ] 
+"properties": [ "806021", " 70", " 218", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CUAUTITLÁN IZCALLI" ] 
 },
 {
  "type": "Feature",
@@ -3318,7 +3359,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.22, 19.627 ] 
 },
-"properties": [ "806087", " 62.0", " 213", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CUAUTITLÁN IZCALLI" ] 
+"properties": [ "806087", " 62", " 213", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CUAUTITLÁN IZCALLI" ] 
 },
 {
  "type": "Feature",
@@ -3326,7 +3367,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.22, 19.627 ] 
 },
-"properties": [ "806090", " 54.0", "  99", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CUAUTITLÁN IZCALLI" ] 
+"properties": [ "806090", " 54", "  99", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CUAUTITLÁN IZCALLI" ] 
 },
 {
  "type": "Feature",
@@ -3334,7 +3375,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.818, 19.229 ] 
 },
-"properties": [ "807044", " 70.0", " 349", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 ÁNGEL MARÍA GARIBAY KINTANA" ] 
+"properties": [ "807044", " 70", " 349", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 ÁNGEL MARÍA GARIBAY KINTANA" ] 
 },
 {
  "type": "Feature",
@@ -3342,7 +3383,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.931,  19.21 ] 
 },
-"properties": [ "808039", " 58.0", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3 SR. MAX SHEIN HEISLER" ] 
+"properties": [ "808039", " 58", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3 SR. MAX SHEIN HEISLER" ] 
 },
 {
  "type": "Feature",
@@ -3350,7 +3391,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.931,  19.21 ] 
 },
-"properties": [ "808046", " 53.0", " 120", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3 SR. MAX SHEIN HEISLER" ] 
+"properties": [ "808046", " 53", " 120", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3 SR. MAX SHEIN HEISLER" ] 
 },
 {
  "type": "Feature",
@@ -3358,7 +3399,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.931,  19.21 ] 
 },
-"properties": [ "808066", " 68.0", "  62", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3 SR. MAX SHEIN HEISLER" ] 
+"properties": [ "808066", " 68", "  62", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3 SR. MAX SHEIN HEISLER" ] 
 },
 {
  "type": "Feature",
@@ -3366,7 +3407,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.899, 19.408 ] 
 },
-"properties": [ "809027", " 67.0", "  87", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHICOLOAPAN" ] 
+"properties": [ "809027", " 67", "  87", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHICOLOAPAN" ] 
 },
 {
  "type": "Feature",
@@ -3374,7 +3415,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.899, 19.408 ] 
 },
-"properties": [ "809088", " 73.0", " 169", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHICOLOAPAN" ] 
+"properties": [ "809088", " 73", " 169", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHICOLOAPAN" ] 
 },
 {
  "type": "Feature",
@@ -3382,7 +3423,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.898, 19.408 ] 
 },
-"properties": [ "809090", " 56.0", " 128", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHICOLOAPAN" ] 
+"properties": [ "809090", " 56", " 128", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHICOLOAPAN" ] 
 },
 {
  "type": "Feature",
@@ -3390,7 +3431,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.943, 19.444 ] 
 },
-"properties": [ "810016", " 62.0", " 130", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHIMALHUACÁN" ] 
+"properties": [ "810016", " 62", " 130", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHIMALHUACÁN" ] 
 },
 {
  "type": "Feature",
@@ -3406,7 +3447,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.943, 19.443 ] 
 },
-"properties": [ "810087", " 55.0", " 238", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHIMALHUACÁN" ] 
+"properties": [ "810087", " 55", " 238", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHIMALHUACÁN" ] 
 },
 {
  "type": "Feature",
@@ -3414,7 +3455,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.985, 19.429 ] 
 },
-"properties": [ "811044", " 65.0", " 183", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 LIC. AGUSTÍN REYES PONCE" ] 
+"properties": [ "811044", " 65", " 183", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 LIC. AGUSTÍN REYES PONCE" ] 
 },
 {
  "type": "Feature",
@@ -3422,7 +3463,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.985, 19.429 ] 
 },
-"properties": [ "811046", " 47.0", " 102", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 LIC. AGUSTÍN REYES PONCE" ] 
+"properties": [ "811046", " 47", " 102", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 LIC. AGUSTÍN REYES PONCE" ] 
 },
 {
  "type": "Feature",
@@ -3430,7 +3471,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.966, 19.444 ] 
 },
-"properties": [ "812036", " 58.0", "  52", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 ISAAC GUZMÁN VALDIVIA" ] 
+"properties": [ "812036", " 58", "  52", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 ISAAC GUZMÁN VALDIVIA" ] 
 },
 {
  "type": "Feature",
@@ -3446,7 +3487,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.967, 19.444 ] 
 },
-"properties": [ "812053", " 53.0", " 120", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 ISAAC GUZMÁN VALDIVIA" ] 
+"properties": [ "812053", " 53", " 120", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 ISAAC GUZMÁN VALDIVIA" ] 
 },
 {
  "type": "Feature",
@@ -3454,7 +3495,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.967, 19.444 ] 
 },
-"properties": [ "812083", " 53.0", "  27", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 ISAAC GUZMÁN VALDIVIA" ] 
+"properties": [ "812083", " 53", "  27", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 ISAAC GUZMÁN VALDIVIA" ] 
 },
 {
  "type": "Feature",
@@ -3462,7 +3503,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.055, 19.598 ] 
 },
-"properties": [ "813086", " 60.0", " 220", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL ECATEPEC" ] 
+"properties": [ "813086", " 60", " 220", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL ECATEPEC" ] 
 },
 {
  "type": "Feature",
@@ -3470,7 +3511,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.055, 19.598 ] 
 },
-"properties": [ "813087", " 69.0", " 225", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL ECATEPEC" ] 
+"properties": [ "813087", " 69", " 225", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL ECATEPEC" ] 
 },
 {
  "type": "Feature",
@@ -3478,7 +3519,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.996, 19.649 ] 
 },
-"properties": [ "814036", " 53.0", "  58", "CENTRO DE BACHILLERATO TECNOLÓGICO JUAN GUTENBERG" ] 
+"properties": [ "814036", " 53", "  58", "CENTRO DE BACHILLERATO TECNOLÓGICO JUAN GUTENBERG" ] 
 },
 {
  "type": "Feature",
@@ -3486,7 +3527,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.996, 19.649 ] 
 },
-"properties": [ "814053", " 70.0", "  62", "CENTRO DE BACHILLERATO TECNOLÓGICO JUAN GUTENBERG" ] 
+"properties": [ "814053", " 70", "  62", "CENTRO DE BACHILLERATO TECNOLÓGICO JUAN GUTENBERG" ] 
 },
 {
  "type": "Feature",
@@ -3494,7 +3535,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.996, 19.649 ] 
 },
-"properties": [ "814071", " 58.0", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO JUAN GUTENBERG" ] 
+"properties": [ "814071", " 58", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO JUAN GUTENBERG" ] 
 },
 {
  "type": "Feature",
@@ -3518,7 +3559,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.937, 19.318 ] 
 },
-"properties": [ "815053", " 63.0", " 241", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 DR. LEOPOLDO RÍO DE LA LOZA" ] 
+"properties": [ "815053", " 63", " 241", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 DR. LEOPOLDO RÍO DE LA LOZA" ] 
 },
 {
  "type": "Feature",
@@ -3526,7 +3567,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.937, 19.318 ] 
 },
-"properties": [ "815084", " 52.0", " 172", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 DR. LEOPOLDO RÍO DE LA LOZA" ] 
+"properties": [ "815084", " 52", " 172", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 DR. LEOPOLDO RÍO DE LA LOZA" ] 
 },
 {
  "type": "Feature",
@@ -3534,7 +3575,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.906, 19.297 ] 
 },
-"properties": [ "816046", " 57.0", " 173", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 GUILLERMO GONZÁLEZ CAMARENA" ] 
+"properties": [ "816046", " 57", " 173", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 GUILLERMO GONZÁLEZ CAMARENA" ] 
 },
 {
  "type": "Feature",
@@ -3542,7 +3583,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.906, 19.297 ] 
 },
-"properties": [ "816084", " 47.0", "  40", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 GUILLERMO GONZÁLEZ CAMARENA" ] 
+"properties": [ "816084", " 47", "  40", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 GUILLERMO GONZÁLEZ CAMARENA" ] 
 },
 {
  "type": "Feature",
@@ -3550,7 +3591,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.878, 19.323 ] 
 },
-"properties": [ "817015", " 51.0", " 143", "COLEGIO DE ESTUDIOS CIENTÍFICOS  Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL IXTAPALUCA" ] 
+"properties": [ "817015", " 51", " 143", "COLEGIO DE ESTUDIOS CIENTÍFICOS  Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL IXTAPALUCA" ] 
 },
 {
  "type": "Feature",
@@ -3566,7 +3607,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.274,  19.44 ] 
 },
-"properties": [ "818046", " 58.0", " 186", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 MIGUEL DE CERVANTES SAAVEDRA" ] 
+"properties": [ "818046", " 58", " 186", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 MIGUEL DE CERVANTES SAAVEDRA" ] 
 },
 {
  "type": "Feature",
@@ -3574,7 +3615,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.252, 19.465 ] 
 },
-"properties": [ "819054", " 59.0", " 125", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2  ING. GUILLERMO GONZÁLEZ CAMARENA" ] 
+"properties": [ "819054", " 59", " 125", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2  ING. GUILLERMO GONZÁLEZ CAMARENA" ] 
 },
 {
  "type": "Feature",
@@ -3582,7 +3623,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.252, 19.465 ] 
 },
-"properties": [ "819076", " 73.0", " 119", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2  ING. GUILLERMO GONZÁLEZ CAMARENA" ] 
+"properties": [ "819076", " 73", " 119", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2  ING. GUILLERMO GONZÁLEZ CAMARENA" ] 
 },
 {
  "type": "Feature",
@@ -3590,7 +3631,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.981, 19.391 ] 
 },
-"properties": [ "820036", " 51.0", " 124", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 REFUGIO ESTÉVES REYES" ] 
+"properties": [ "820036", " 51", " 124", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 REFUGIO ESTÉVES REYES" ] 
 },
 {
  "type": "Feature",
@@ -3598,7 +3639,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.981, 19.391 ] 
 },
-"properties": [ "820044", " 71.0", " 296", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 REFUGIO ESTÉVES REYES" ] 
+"properties": [ "820044", " 71", " 296", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 REFUGIO ESTÉVES REYES" ] 
 },
 {
  "type": "Feature",
@@ -3606,7 +3647,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.022, 19.404 ] 
 },
-"properties": [ "821036", " 62.0", "  48", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 DR. MAXIMILIANO RUIZ CASTAÑEDA" ] 
+"properties": [ "821036", " 62", "  48", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 DR. MAXIMILIANO RUIZ CASTAÑEDA" ] 
 },
 {
  "type": "Feature",
@@ -3614,7 +3655,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.022, 19.404 ] 
 },
-"properties": [ "821046", " 60.0", " 123", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 DR. MAXIMILIANO RUIZ CASTAÑEDA" ] 
+"properties": [ "821046", " 60", " 123", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 DR. MAXIMILIANO RUIZ CASTAÑEDA" ] 
 },
 {
  "type": "Feature",
@@ -3622,7 +3663,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.022, 19.404 ] 
 },
-"properties": [ "821083", " 50.0", "  40", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 DR. MAXIMILIANO RUIZ CASTAÑEDA" ] 
+"properties": [ "821083", " 50", "  40", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 DR. MAXIMILIANO RUIZ CASTAÑEDA" ] 
 },
 {
  "type": "Feature",
@@ -3630,7 +3671,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.053, 19.489 ] 
 },
-"properties": [ "822055", " 59.0", " 344", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NEZAHUALCÓYOTL" ] 
+"properties": [ "822055", " 59", " 344", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NEZAHUALCÓYOTL" ] 
 },
 {
  "type": "Feature",
@@ -3638,7 +3679,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.053, 19.489 ] 
 },
-"properties": [ "822090", " 56.0", " 161", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NEZAHUALCÓYOTL" ] 
+"properties": [ "822090", " 56", " 161", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NEZAHUALCÓYOTL" ] 
 },
 {
  "type": "Feature",
@@ -3654,7 +3695,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.275, 19.603 ] 
 },
-"properties": [ "823087", " 54.0", " 429", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NICOLÁS ROMERO I" ] 
+"properties": [ "823087", " 54", " 429", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NICOLÁS ROMERO I" ] 
 },
 {
  "type": "Feature",
@@ -3662,7 +3703,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.949, 19.374 ] 
 },
-"properties": [ "824022", " 54.0", " 160", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL LA PAZ" ] 
+"properties": [ "824022", " 54", " 160", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL LA PAZ" ] 
 },
 {
  "type": "Feature",
@@ -3670,7 +3711,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.949, 19.375 ] 
 },
-"properties": [ "824087", " 54.0", " 402", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL LA PAZ" ] 
+"properties": [ "824087", " 54", " 402", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL LA PAZ" ] 
 },
 {
  "type": "Feature",
@@ -3678,7 +3719,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.965, 19.356 ] 
 },
-"properties": [ "825036", " 65.0", " 123", "CENTRO DE BACHILLERATO TECNOLÓGICO ALBERT EINSTEIN" ] 
+"properties": [ "825036", " 65", " 123", "CENTRO DE BACHILLERATO TECNOLÓGICO ALBERT EINSTEIN" ] 
 },
 {
  "type": "Feature",
@@ -3686,7 +3727,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.965, 19.356 ] 
 },
-"properties": [ "825046", " 66.0", " 185", "CENTRO DE BACHILLERATO TECNOLÓGICO ALBERT EINSTEIN" ] 
+"properties": [ "825046", " 66", " 185", "CENTRO DE BACHILLERATO TECNOLÓGICO ALBERT EINSTEIN" ] 
 },
 {
  "type": "Feature",
@@ -3694,7 +3735,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.971, 19.724 ] 
 },
-"properties": [ "826025", " 76.0", "  85", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL TECÁMAC" ] 
+"properties": [ "826025", " 76", "  85", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL TECÁMAC" ] 
 },
 {
  "type": "Feature",
@@ -3718,7 +3759,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.037, 19.675 ] 
 },
-"properties": [ "827036", " 74.0", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 DR. JORGE JIMÉNEZ CANTÚ" ] 
+"properties": [ "827036", " 74", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 DR. JORGE JIMÉNEZ CANTÚ" ] 
 },
 {
  "type": "Feature",
@@ -3734,7 +3775,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.038, 19.676 ] 
 },
-"properties": [ "827066", " 62.0", " 176", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 DR. JORGE JIMÉNEZ CANTÚ" ] 
+"properties": [ "827066", " 62", " 176", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 DR. JORGE JIMÉNEZ CANTÚ" ] 
 },
 {
  "type": "Feature",
@@ -3742,7 +3783,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.037, 19.675 ] 
 },
-"properties": [ "827071", " 71.0", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 DR. JORGE JIMÉNEZ CANTÚ" ] 
+"properties": [ "827071", " 71", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 DR. JORGE JIMÉNEZ CANTÚ" ] 
 },
 {
  "type": "Feature",
@@ -3758,7 +3799,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.038, 19.675 ] 
 },
-"properties": [ "827083", " 50.0", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 DR. JORGE JIMÉNEZ CANTÚ" ] 
+"properties": [ "827083", " 50", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 1 DR. JORGE JIMÉNEZ CANTÚ" ] 
 },
 {
  "type": "Feature",
@@ -3766,7 +3807,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.972, 19.744 ] 
 },
-"properties": [ "828035", " 63.0", " 181", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 LIC. CARLOS PICHARDO" ] 
+"properties": [ "828035", " 63", " 181", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 LIC. CARLOS PICHARDO" ] 
 },
 {
  "type": "Feature",
@@ -3774,7 +3815,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.972, 19.744 ] 
 },
-"properties": [ "828039", " 79.0", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 LIC. CARLOS PICHARDO" ] 
+"properties": [ "828039", " 79", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 LIC. CARLOS PICHARDO" ] 
 },
 {
  "type": "Feature",
@@ -3790,7 +3831,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.972, 19.744 ] 
 },
-"properties": [ "828066", " 65.0", " 185", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 LIC. CARLOS PICHARDO" ] 
+"properties": [ "828066", " 65", " 185", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 LIC. CARLOS PICHARDO" ] 
 },
 {
  "type": "Feature",
@@ -3806,7 +3847,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.972, 19.744 ] 
 },
-"properties": [ "828079", " 69.0", " 117", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 LIC. CARLOS PICHARDO" ] 
+"properties": [ "828079", " 69", " 117", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2 LIC. CARLOS PICHARDO" ] 
 },
 {
  "type": "Feature",
@@ -3814,7 +3855,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.901, 19.522 ] 
 },
-"properties": [ "829039", " 49.0", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO DR. EDUARDO SUÁREZ A." ] 
+"properties": [ "829039", " 49", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO DR. EDUARDO SUÁREZ A." ] 
 },
 {
  "type": "Feature",
@@ -3822,7 +3863,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.901, 19.522 ] 
 },
-"properties": [ "829046", " 58.0", " 122", "CENTRO DE BACHILLERATO TECNOLÓGICO DR. EDUARDO SUÁREZ A." ] 
+"properties": [ "829046", " 58", " 122", "CENTRO DE BACHILLERATO TECNOLÓGICO DR. EDUARDO SUÁREZ A." ] 
 },
 {
  "type": "Feature",
@@ -3830,7 +3871,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.901, 19.522 ] 
 },
-"properties": [ "829069", " 64.0", " 121", "CENTRO DE BACHILLERATO TECNOLÓGICO DR. EDUARDO SUÁREZ A." ] 
+"properties": [ "829069", " 64", " 121", "CENTRO DE BACHILLERATO TECNOLÓGICO DR. EDUARDO SUÁREZ A." ] 
 },
 {
  "type": "Feature",
@@ -3838,7 +3879,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.214, 19.524 ] 
 },
-"properties": [ "830036", " 58.0", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO LIC. ADOLFO LÓPEZ MATEOS" ] 
+"properties": [ "830036", " 58", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO LIC. ADOLFO LÓPEZ MATEOS" ] 
 },
 {
  "type": "Feature",
@@ -3854,7 +3895,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.214, 19.524 ] 
 },
-"properties": [ "830066", " 73.0", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO LIC. ADOLFO LÓPEZ MATEOS" ] 
+"properties": [ "830066", " 73", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO LIC. ADOLFO LÓPEZ MATEOS" ] 
 },
 {
  "type": "Feature",
@@ -3862,7 +3903,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.087, 19.673 ] 
 },
-"properties": [ "831015", " 54.0", " 223", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL TULTITLÁN" ] 
+"properties": [ "831015", " 54", " 223", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL TULTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -3886,7 +3927,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.95, 19.303 ] 
 },
-"properties": [ "832067", " 71.0", " 307", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL VALLE DE CHALCO SOLIDARIDAD I" ] 
+"properties": [ "832067", " 71", " 307", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL VALLE DE CHALCO SOLIDARIDAD I" ] 
 },
 {
  "type": "Feature",
@@ -3894,7 +3935,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.95, 19.303 ] 
 },
-"properties": [ "832085", " 55.0", " 167", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL VALLE DE CHALCO SOLIDARIDAD I" ] 
+"properties": [ "832085", " 55", " 167", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL VALLE DE CHALCO SOLIDARIDAD I" ] 
 },
 {
  "type": "Feature",
@@ -3902,7 +3943,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.947, 19.283 ] 
 },
-"properties": [ "833046", " 55.0", " 186", "CENTRO DE BACHILLERATO TECNOLÓGICO JUAN DE DIOS BÁTIZ" ] 
+"properties": [ "833046", " 55", " 186", "CENTRO DE BACHILLERATO TECNOLÓGICO JUAN DE DIOS BÁTIZ" ] 
 },
 {
  "type": "Feature",
@@ -3918,7 +3959,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.035, 19.506 ] 
 },
-"properties": [ "834087", " 57.0", " 173", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL ECATEPEC II" ] 
+"properties": [ "834087", " 57", " 173", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL ECATEPEC II" ] 
 },
 {
  "type": "Feature",
@@ -3926,7 +3967,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.013, 19.421 ] 
 },
-"properties": [ "835088", " 70.0", " 362", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NEZAHUALCÓYOTL II" ] 
+"properties": [ "835088", " 70", " 362", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NEZAHUALCÓYOTL II" ] 
 },
 {
  "type": "Feature",
@@ -3942,7 +3983,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.204,  19.72 ] 
 },
-"properties": [ "837009", " 58.0", " 130", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL TEPOTZOTLÁN" ] 
+"properties": [ "837009", " 58", " 130", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL TEPOTZOTLÁN" ] 
 },
 {
  "type": "Feature",
@@ -3950,7 +3991,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.204, 19.721 ] 
 },
-"properties": [ "837087", " 57.0", " 168", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL TEPOTZOTLÁN" ] 
+"properties": [ "837087", " 57", " 168", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL TEPOTZOTLÁN" ] 
 },
 {
  "type": "Feature",
@@ -3958,7 +3999,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.108, 19.664 ] 
 },
-"properties": [ "838087", " 65.0", " 257", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL TULTEPEC" ] 
+"properties": [ "838087", " 65", " 257", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL TULTEPEC" ] 
 },
 {
  "type": "Feature",
@@ -3966,7 +4007,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.345, 19.614 ] 
 },
-"properties": [ "840060", " 78.0", "  87", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NICOLÁS ROMERO II" ] 
+"properties": [ "840060", " 78", "  87", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NICOLÁS ROMERO II" ] 
 },
 {
  "type": "Feature",
@@ -3974,7 +4015,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.347, 19.613 ] 
 },
-"properties": [ "840087", " 64.0", "  89", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NICOLÁS ROMERO II" ] 
+"properties": [ "840087", " 64", "  89", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NICOLÁS ROMERO II" ] 
 },
 {
  "type": "Feature",
@@ -3982,7 +4023,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.346, 19.614 ] 
 },
-"properties": [ "840091", " 58.0", "  86", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NICOLÁS ROMERO II" ] 
+"properties": [ "840091", " 58", "  86", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NICOLÁS ROMERO II" ] 
 },
 {
  "type": "Feature",
@@ -3990,7 +4031,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.146, 19.684 ] 
 },
-"properties": [ "841046", " 72.0", " 118", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2" ] 
+"properties": [ "841046", " 72", " 118", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2" ] 
 },
 {
  "type": "Feature",
@@ -4006,7 +4047,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.905, 19.247 ] 
 },
-"properties": [ "842013", " 88.0", "  41", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHALCO" ] 
+"properties": [ "842013", " 88", "  41", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHALCO" ] 
 },
 {
  "type": "Feature",
@@ -4014,7 +4055,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.905, 19.247 ] 
 },
-"properties": [ "842024", " 70.0", "  40", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHALCO" ] 
+"properties": [ "842024", " 70", "  40", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHALCO" ] 
 },
 {
  "type": "Feature",
@@ -4022,7 +4063,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.917, 19.288 ] 
 },
-"properties": [ "843013", " 81.0", "  42", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL VALLE DE CHALCO SOLIDARIDAD II" ] 
+"properties": [ "843013", " 81", "  42", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL VALLE DE CHALCO SOLIDARIDAD II" ] 
 },
 {
  "type": "Feature",
@@ -4030,7 +4071,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.917, 19.289 ] 
 },
-"properties": [ "843015", " 64.0", "  41", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL VALLE DE CHALCO SOLIDARIDAD II" ] 
+"properties": [ "843015", " 64", "  41", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL VALLE DE CHALCO SOLIDARIDAD II" ] 
 },
 {
  "type": "Feature",
@@ -4046,7 +4087,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [    -99, 19.685 ] 
 },
-"properties": [ "844070", " 77.0", " 238", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3" ] 
+"properties": [ "844070", " 77", " 238", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3" ] 
 },
 {
  "type": "Feature",
@@ -4054,7 +4095,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [    -99, 19.685 ] 
 },
-"properties": [ "844076", " 74.0", " 123", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3" ] 
+"properties": [ "844076", " 74", " 123", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3" ] 
 },
 {
  "type": "Feature",
@@ -4070,7 +4111,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.905, 19.491 ] 
 },
-"properties": [ "845046", " 61.0", "  62", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2" ] 
+"properties": [ "845046", " 61", "  62", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2" ] 
 },
 {
  "type": "Feature",
@@ -4078,7 +4119,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.905,  19.49 ] 
 },
-"properties": [ "845070", " 62.0", " 243", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2" ] 
+"properties": [ "845070", " 62", " 243", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 2" ] 
 },
 {
  "type": "Feature",
@@ -4086,7 +4127,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.861, 19.503 ] 
 },
-"properties": [ "846069", " 56.0", " 121", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3" ] 
+"properties": [ "846069", " 56", " 121", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3" ] 
 },
 {
  "type": "Feature",
@@ -4102,7 +4143,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.861, 19.503 ] 
 },
-"properties": [ "846082", " 45.0", "  62", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3" ] 
+"properties": [ "846082", " 45", "  62", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 3" ] 
 },
 {
  "type": "Feature",
@@ -4110,7 +4151,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.903, 19.433 ] 
 },
-"properties": [ "847066", " 71.0", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
+"properties": [ "847066", " 71", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
 },
 {
  "type": "Feature",
@@ -4118,7 +4159,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.903, 19.432 ] 
 },
-"properties": [ "847069", " 67.0", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
+"properties": [ "847069", " 67", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
 },
 {
  "type": "Feature",
@@ -4126,7 +4167,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.904, 19.433 ] 
 },
-"properties": [ "847070", " 67.0", " 178", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
+"properties": [ "847070", " 67", " 178", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
 },
 {
  "type": "Feature",
@@ -4134,7 +4175,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.903, 19.433 ] 
 },
-"properties": [ "847082", " 54.0", "  44", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
+"properties": [ "847082", " 54", "  44", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
 },
 {
  "type": "Feature",
@@ -4142,7 +4183,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.17, 19.612 ] 
 },
-"properties": [ "848046", " 66.0", "  65", "CENTRO DE BACHILLERATO TECNOLÓGICO" ] 
+"properties": [ "848046", " 66", "  65", "CENTRO DE BACHILLERATO TECNOLÓGICO" ] 
 },
 {
  "type": "Feature",
@@ -4150,7 +4191,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.17, 19.612 ] 
 },
-"properties": [ "848069", " 73.0", " 125", "CENTRO DE BACHILLERATO TECNOLÓGICO" ] 
+"properties": [ "848069", " 73", " 125", "CENTRO DE BACHILLERATO TECNOLÓGICO" ] 
 },
 {
  "type": "Feature",
@@ -4158,7 +4199,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.171, 19.612 ] 
 },
-"properties": [ "848076", " 64.0", " 121", "CENTRO DE BACHILLERATO TECNOLÓGICO" ] 
+"properties": [ "848076", " 64", " 121", "CENTRO DE BACHILLERATO TECNOLÓGICO" ] 
 },
 {
  "type": "Feature",
@@ -4166,7 +4207,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.835,  19.48 ] 
 },
-"properties": [ "849067", " 50.0", " 123", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL TEXCOCO" ] 
+"properties": [ "849067", " 50", " 123", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL TEXCOCO" ] 
 },
 {
  "type": "Feature",
@@ -4174,7 +4215,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.027, 19.632 ] 
 },
-"properties": [ "850046", " 69.0", " 178", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
+"properties": [ "850046", " 69", " 178", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
 },
 {
  "type": "Feature",
@@ -4182,7 +4223,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.027, 19.632 ] 
 },
-"properties": [ "850066", " 69.0", " 118", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
+"properties": [ "850066", " 69", " 118", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
 },
 {
  "type": "Feature",
@@ -4190,7 +4231,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.026, 19.632 ] 
 },
-"properties": [ "850079", " 67.0", " 113", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
+"properties": [ "850079", " 67", " 113", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
 },
 {
  "type": "Feature",
@@ -4198,7 +4239,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.155, 19.673 ] 
 },
-"properties": [ "851089", " 62.0", " 168", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL CUAUTITLÁN" ] 
+"properties": [ "851089", " 62", " 168", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS  DEL ESTADO DE MÉXICO PLANTEL CUAUTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -4206,7 +4247,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.974, 19.444 ] 
 },
-"properties": [ "852089", " 59.0", "  99", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHIMALHUACÁN II" ] 
+"properties": [ "852089", " 59", "  99", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL CHIMALHUACÁN II" ] 
 },
 {
  "type": "Feature",
@@ -4214,7 +4255,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.299, 19.634 ] 
 },
-"properties": [ "853089", " 59.0", "  92", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NICOLÁS ROMERO III" ] 
+"properties": [ "853089", " 59", "  92", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL NICOLÁS ROMERO III" ] 
 },
 {
  "type": "Feature",
@@ -4222,7 +4263,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.806, 19.543 ] 
 },
-"properties": [ "854070", " 62.0", "  64", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 5" ] 
+"properties": [ "854070", " 62", "  64", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 5" ] 
 },
 {
  "type": "Feature",
@@ -4230,7 +4271,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.807, 19.543 ] 
 },
-"properties": [ "854076", " 62.0", "  63", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 5" ] 
+"properties": [ "854076", " 62", "  63", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 5" ] 
 },
 {
  "type": "Feature",
@@ -4238,7 +4279,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.806, 19.543 ] 
 },
-"properties": [ "854081", " 60.0", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 5" ] 
+"properties": [ "854081", " 60", "  61", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 5" ] 
 },
 {
  "type": "Feature",
@@ -4254,7 +4295,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.958, 19.205 ] 
 },
-"properties": [ "856046", " 45.0", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
+"properties": [ "856046", " 45", "  60", "CENTRO DE BACHILLERATO TECNOLÓGICO NÚM. 4" ] 
 },
 {
  "type": "Feature",
@@ -4262,7 +4303,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.352,  19.36 ] 
 },
-"properties": [ "857087", " 53.0", " 165", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL HUIXQUILUCAN" ] 
+"properties": [ "857087", " 53", " 165", "COLEGIO DE ESTUDIOS CIENTÍFICOS Y TECNOLÓGICOS DEL ESTADO DE MÉXICO PLANTEL HUIXQUILUCAN" ] 
 },
 {
  "type": "Feature",
@@ -4270,7 +4311,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.89, 19.412 ] 
 },
-"properties": [ "870000", " 52.0", " 206", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 22 CHICOLOAPAN" ] 
+"properties": [ "870000", " 52", " 206", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 22 CHICOLOAPAN" ] 
 },
 {
  "type": "Feature",
@@ -4278,7 +4319,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.964, 19.446 ] 
 },
-"properties": [ "871000", " 49.0", "  65", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 24 CHIMALHUACÁN NORTE" ] 
+"properties": [ "871000", " 49", "  65", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 24 CHIMALHUACÁN NORTE" ] 
 },
 {
  "type": "Feature",
@@ -4286,7 +4327,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.087, 19.567 ] 
 },
-"properties": [ "872000", " 53.0", " 202", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 23 ECATEPEC LA CAÑADA" ] 
+"properties": [ "872000", " 53", " 202", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 23 ECATEPEC LA CAÑADA" ] 
 },
 {
  "type": "Feature",
@@ -4294,7 +4335,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.87, 19.451 ] 
 },
-"properties": [ "873000", " 46.0", " 100", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 43 TEXCOCO" ] 
+"properties": [ "873000", " 46", " 100", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 43 TEXCOCO" ] 
 },
 {
  "type": "Feature",
@@ -4302,7 +4343,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.15, 19.602 ] 
 },
-"properties": [ "874000", " 49.0", " 188", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 25 TULTITLÁN" ] 
+"properties": [ "874000", " 49", " 188", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 25 TULTITLÁN" ] 
 },
 {
  "type": "Feature",
@@ -4310,7 +4351,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.976, 19.607 ] 
 },
-"properties": [ "875000", " 61.0", " 218", "PREPARATORIA OFICIAL NÚM. 187" ] 
+"properties": [ "875000", " 61", " 218", "PREPARATORIA OFICIAL NÚM. 187" ] 
 },
 {
  "type": "Feature",
@@ -4318,7 +4359,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.094, 19.613 ] 
 },
-"properties": [ "876000", " 62.0", " 428", "PREPARATORIA OFICIAL NÚM. 170" ] 
+"properties": [ "876000", " 62", " 428", "PREPARATORIA OFICIAL NÚM. 170" ] 
 },
 {
  "type": "Feature",
@@ -4326,7 +4367,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.01, 19.385 ] 
 },
-"properties": [ "877000", " 57.0", " 155", "PREPARATORIA OFICIAL NÚM. 168" ] 
+"properties": [ "877000", " 57", " 155", "PREPARATORIA OFICIAL NÚM. 168" ] 
 },
 {
  "type": "Feature",
@@ -4334,7 +4375,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.973, 19.605 ] 
 },
-"properties": [ "878000", " 53.0", " 206", "PREPARATORIA OFICIAL NÚM. 183" ] 
+"properties": [ "878000", " 53", " 206", "PREPARATORIA OFICIAL NÚM. 183" ] 
 },
 {
  "type": "Feature",
@@ -4342,7 +4383,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.12, 19.683 ] 
 },
-"properties": [ "879000", " 50.0", " 381", "PREPARATORIA OFICIAL NÚM. 181" ] 
+"properties": [ "879000", " 50", " 381", "PREPARATORIA OFICIAL NÚM. 181" ] 
 },
 {
  "type": "Feature",
@@ -4350,7 +4391,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.885, 19.423 ] 
 },
-"properties": [ "880000", " 54.0", "  91", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 31 CHICOLOAPAN" ] 
+"properties": [ "880000", " 54", "  91", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 31 CHICOLOAPAN" ] 
 },
 {
  "type": "Feature",
@@ -4358,7 +4399,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.983, 19.397 ] 
 },
-"properties": [ "881000", " 51.0", " 181", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 30 NEZAHUALCÓYOTL" ] 
+"properties": [ "881000", " 51", " 181", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 30 NEZAHUALCÓYOTL" ] 
 },
 {
  "type": "Feature",
@@ -4374,7 +4415,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.219, 19.595 ] 
 },
-"properties": [ "883000", " 48.0", " 635", "PREPARATORIA OFICIAL NÚM. 210" ] 
+"properties": [ "883000", " 48", " 635", "PREPARATORIA OFICIAL NÚM. 210" ] 
 },
 {
  "type": "Feature",
@@ -4390,7 +4431,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.997, 19.655 ] 
 },
-"properties": [ "885000", " 46.0", " 104", "PREPARATORIA OFICIAL NÚM. 179" ] 
+"properties": [ "885000", " 46", " 104", "PREPARATORIA OFICIAL NÚM. 179" ] 
 },
 {
  "type": "Feature",
@@ -4398,7 +4439,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.04, 19.635 ] 
 },
-"properties": [ "886000", " 50.0", " 299", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 35 TECÁMAC" ] 
+"properties": [ "886000", " 50", " 299", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL 35 TECÁMAC" ] 
 },
 {
  "type": "Feature",
@@ -4406,7 +4447,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.262, 19.672 ] 
 },
-"properties": [ "887000", " 56.0", " 161", "PREPARATORIA OFICIAL NÚM. 241" ] 
+"properties": [ "887000", " 56", " 161", "PREPARATORIA OFICIAL NÚM. 241" ] 
 },
 {
  "type": "Feature",
@@ -4414,7 +4455,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.937,  19.41 ] 
 },
-"properties": [ "888000", " 42.0", "  14", "PREPARATORIA OFICIAL NÚM. 213" ] 
+"properties": [ "888000", " 42", "  14", "PREPARATORIA OFICIAL NÚM. 213" ] 
 },
 {
  "type": "Feature",
@@ -4430,7 +4471,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.065, 19.636 ] 
 },
-"properties": [ "890000", " 49.0", " 101", "PREPARATORIA OFICIAL NÚM. 211" ] 
+"properties": [ "890000", " 49", " 101", "PREPARATORIA OFICIAL NÚM. 211" ] 
 },
 {
  "type": "Feature",
@@ -4446,7 +4487,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.86, 19.353 ] 
 },
-"properties": [ "892000", " 47.0", "  38", "PREPARATORIA OFICIAL NÚM. 217" ] 
+"properties": [ "892000", " 47", "  38", "PREPARATORIA OFICIAL NÚM. 217" ] 
 },
 {
  "type": "Feature",
@@ -4454,7 +4495,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.164, 19.688 ] 
 },
-"properties": [ "893000", " 65.0", " 105", "PREPARATORIA OFICIAL NÚM. 223" ] 
+"properties": [ "893000", " 65", " 105", "PREPARATORIA OFICIAL NÚM. 223" ] 
 },
 {
  "type": "Feature",
@@ -4462,7 +4503,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.26, 19.643 ] 
 },
-"properties": [ "894000", " 47.0", " 208", "PREPARATORIA OFICIAL NÚM. 272" ] 
+"properties": [ "894000", " 47", " 208", "PREPARATORIA OFICIAL NÚM. 272" ] 
 },
 {
  "type": "Feature",
@@ -4470,7 +4511,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.943, 19.407 ] 
 },
-"properties": [ "895000", " 49.0", "  44", "PREPARATORIA OFICIAL NÚM. 222" ] 
+"properties": [ "895000", " 49", "  44", "PREPARATORIA OFICIAL NÚM. 222" ] 
 },
 {
  "type": "Feature",
@@ -4478,7 +4519,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.916, 19.388 ] 
 },
-"properties": [ "896000", " 49.0", "  21", "PREPARATORIA OFICIAL NÚM. 224" ] 
+"properties": [ "896000", " 49", "  21", "PREPARATORIA OFICIAL NÚM. 224" ] 
 },
 {
  "type": "Feature",
@@ -4486,7 +4527,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.977, 19.381 ] 
 },
-"properties": [ "897000", " 47.0", "  62", "PREPARATORIA OFICIAL NÚM. 225" ] 
+"properties": [ "897000", " 47", "  62", "PREPARATORIA OFICIAL NÚM. 225" ] 
 },
 {
  "type": "Feature",
@@ -4494,7 +4535,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.966, 19.433 ] 
 },
-"properties": [ "898000", " 46.0", "  19", "PREPARATORIA OFICIAL NÚM. 226" ] 
+"properties": [ "898000", " 46", "  19", "PREPARATORIA OFICIAL NÚM. 226" ] 
 },
 {
  "type": "Feature",
@@ -4502,7 +4543,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.971, 19.398 ] 
 },
-"properties": [ "899000", " 50.0", "  15", "PREPARATORIA OFICIAL NÚM. 227" ] 
+"properties": [ "899000", " 50", "  15", "PREPARATORIA OFICIAL NÚM. 227" ] 
 },
 {
  "type": "Feature",
@@ -4510,7 +4551,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.065, 19.468 ] 
 },
-"properties": [ "9000", " 65.0", "2972", "PLANTEL 9, ARAGÓN" ] 
+"properties": [ "9000", " 65", "2972", "PLANTEL 9, ARAGÓN" ] 
 },
 {
  "type": "Feature",
@@ -4518,7 +4559,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.884, 19.503 ] 
 },
-"properties": [ "901000", " 90.0", " 282", "PLANTEL TEXCOCO DE LA ESCUELA PREPARATORIA" ] 
+"properties": [ "901000", " 90", " 282", "PLANTEL TEXCOCO DE LA ESCUELA PREPARATORIA" ] 
 },
 {
  "type": "Feature",
@@ -4542,7 +4583,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.959, 19.437 ] 
 },
-"properties": [ "912000", " 48.0", "  35", "PREPARATORIA OFICIAL NÚM. 233" ] 
+"properties": [ "912000", " 48", "  35", "PREPARATORIA OFICIAL NÚM. 233" ] 
 },
 {
  "type": "Feature",
@@ -4550,7 +4591,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.988, 19.424 ] 
 },
-"properties": [ "913000", " 47.0", "  27", "PREPARATORIA OFICIAL NÚM. 234" ] 
+"properties": [ "913000", " 47", "  27", "PREPARATORIA OFICIAL NÚM. 234" ] 
 },
 {
  "type": "Feature",
@@ -4574,7 +4615,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.986, 19.418 ] 
 },
-"properties": [ "916000", " 47.0", "  25", "PREPARATORIA OFICIAL NÚM. 238" ] 
+"properties": [ "916000", " 47", "  25", "PREPARATORIA OFICIAL NÚM. 238" ] 
 },
 {
  "type": "Feature",
@@ -4582,7 +4623,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.946, 19.391 ] 
 },
-"properties": [ "917000", " 50.0", "   9", "PREPARATORIA OFICIAL NÚM. 240" ] 
+"properties": [ "917000", " 50", "   9", "PREPARATORIA OFICIAL NÚM. 240" ] 
 },
 {
  "type": "Feature",
@@ -4590,7 +4631,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.04, 19.499 ] 
 },
-"properties": [ "918000", " 44.0", " 150", "PREPARATORIA OFICIAL NÚM. 221" ] 
+"properties": [ "918000", " 44", " 150", "PREPARATORIA OFICIAL NÚM. 221" ] 
 },
 {
  "type": "Feature",
@@ -4598,7 +4639,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.995,  19.59 ] 
 },
-"properties": [ "919000", " 43.0", "  69", "PREPARATORIA OFICIAL NÚM. 228" ] 
+"properties": [ "919000", " 43", "  69", "PREPARATORIA OFICIAL NÚM. 228" ] 
 },
 {
  "type": "Feature",
@@ -4606,7 +4647,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.026, 19.607 ] 
 },
-"properties": [ "920000", " 58.0", " 218", "PREPARATORIA OFICIAL NÚM. 257" ] 
+"properties": [ "920000", " 58", " 218", "PREPARATORIA OFICIAL NÚM. 257" ] 
 },
 {
  "type": "Feature",
@@ -4614,7 +4655,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.016, 19.583 ] 
 },
-"properties": [ "921000", " 74.0", " 326", "PREPARATORIA OFICIAL NÚM. 258" ] 
+"properties": [ "921000", " 74", " 326", "PREPARATORIA OFICIAL NÚM. 258" ] 
 },
 {
  "type": "Feature",
@@ -4622,7 +4663,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.041, 19.526 ] 
 },
-"properties": [ "922000", " 56.0", " 485", "PREPARATORIA OFICIAL NÚM. 259" ] 
+"properties": [ "922000", " 56", " 485", "PREPARATORIA OFICIAL NÚM. 259" ] 
 },
 {
  "type": "Feature",
@@ -4630,7 +4671,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.013, 19.619 ] 
 },
-"properties": [ "923000", " 50.0", " 253", "PREPARATORIA OFICIAL NÚM. 260" ] 
+"properties": [ "923000", " 50", " 253", "PREPARATORIA OFICIAL NÚM. 260" ] 
 },
 {
  "type": "Feature",
@@ -4638,7 +4679,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.245,  19.47 ] 
 },
-"properties": [ "924000", " 75.0", " 161", "MÓDULO DE LA PREPARATORIA OFICIAL ANEXA A LA NORMAL DE NAUCALPAN" ] 
+"properties": [ "924000", " 75", " 161", "MÓDULO DE LA PREPARATORIA OFICIAL ANEXA A LA NORMAL DE NAUCALPAN" ] 
 },
 {
  "type": "Feature",
@@ -4646,7 +4687,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.414, 19.644 ] 
 },
-"properties": [ "925000", " 45.0", " 215", "PREPARATORIA OFICIAL NÚM. 250" ] 
+"properties": [ "925000", " 45", " 215", "PREPARATORIA OFICIAL NÚM. 250" ] 
 },
 {
  "type": "Feature",
@@ -4654,7 +4695,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.039, 19.625 ] 
 },
-"properties": [ "926000", " 70.0", " 201", "PREPARATORIA OFICIAL NÚM. 229" ] 
+"properties": [ "926000", " 70", " 201", "PREPARATORIA OFICIAL NÚM. 229" ] 
 },
 {
  "type": "Feature",
@@ -4662,7 +4703,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.037, 19.653 ] 
 },
-"properties": [ "927000", " 49.0", " 229", "PREPARATORIA OFICIAL NÚM. 243" ] 
+"properties": [ "927000", " 49", " 229", "PREPARATORIA OFICIAL NÚM. 243" ] 
 },
 {
  "type": "Feature",
@@ -4678,7 +4719,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.916, 19.288 ] 
 },
-"properties": [ "929000", " 45.0", "  67", "PREPARATORIA OFICIAL NÚM. 220" ] 
+"properties": [ "929000", " 45", "  67", "PREPARATORIA OFICIAL NÚM. 220" ] 
 },
 {
  "type": "Feature",
@@ -4686,7 +4727,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.27, 19.598 ] 
 },
-"properties": [ "930000", " 53.0", " 104", "PREPARATORIA OFICIAL NÚM. 262" ] 
+"properties": [ "930000", " 53", " 104", "PREPARATORIA OFICIAL NÚM. 262" ] 
 },
 {
  "type": "Feature",
@@ -4694,7 +4735,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.894, 19.616 ] 
 },
-"properties": [ "931000", " 52.0", " 100", "PREPARATORIA OFICIAL NÚM. 269" ] 
+"properties": [ "931000", " 52", " 100", "PREPARATORIA OFICIAL NÚM. 269" ] 
 },
 {
  "type": "Feature",
@@ -4702,7 +4743,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.932, 19.446 ] 
 },
-"properties": [ "932000", " 44.0", "   6", "PREPARATORIA OFICIAL NÚM. 278" ] 
+"properties": [ "932000", " 44", "   6", "PREPARATORIA OFICIAL NÚM. 278" ] 
 },
 {
  "type": "Feature",
@@ -4710,7 +4751,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.026, 19.493 ] 
 },
-"properties": [ "933000", " 54.0", "  50", "MÓDULO ADSCRITO A LA PREPARATORIA OFICIAL NÚM. 118" ] 
+"properties": [ "933000", " 54", "  50", "MÓDULO ADSCRITO A LA PREPARATORIA OFICIAL NÚM. 118" ] 
 },
 {
  "type": "Feature",
@@ -4718,7 +4759,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.06, 19.562 ] 
 },
-"properties": [ "934000", " 45.0", "  62", "PREPARATORIA OFICIAL NÚM. 266" ] 
+"properties": [ "934000", " 45", "  62", "PREPARATORIA OFICIAL NÚM. 266" ] 
 },
 {
  "type": "Feature",
@@ -4726,7 +4767,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.065, 19.562 ] 
 },
-"properties": [ "935000", " 43.0", "  11", "PREPARATORIA OFICIAL NÚM. 277" ] 
+"properties": [ "935000", " 43", "  11", "PREPARATORIA OFICIAL NÚM. 277" ] 
 },
 {
  "type": "Feature",
@@ -4734,7 +4775,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.259, 19.435 ] 
 },
-"properties": [ "936000", " 54.0", "  45", "MÓDULO HUIXQUILUCAN, ADSCRITO A LA PREPARATORIA OFICIAL NÚM. 262" ] 
+"properties": [ "936000", " 54", "  45", "MÓDULO HUIXQUILUCAN, ADSCRITO A LA PREPARATORIA OFICIAL NÚM. 262" ] 
 },
 {
  "type": "Feature",
@@ -4742,7 +4783,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.848, 19.355 ] 
 },
-"properties": [ "937000", " 52.0", "  16", "PREPARATORIA OFICIAL NÚM. 279" ] 
+"properties": [ "937000", " 52", "  16", "PREPARATORIA OFICIAL NÚM. 279" ] 
 },
 {
  "type": "Feature",
@@ -4750,7 +4791,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.05,  19.46 ] 
 },
-"properties": [ "939000", " 49.0", " 132", "PREPARATORIA OFICIAL NÚM. 280" ] 
+"properties": [ "939000", " 49", " 132", "PREPARATORIA OFICIAL NÚM. 280" ] 
 },
 {
  "type": "Feature",
@@ -4758,7 +4799,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.025,  19.39 ] 
 },
-"properties": [ "940000", " 53.0", " 378", "PREPARATORIA OFICIAL NÚM. 267" ] 
+"properties": [ "940000", " 53", " 378", "PREPARATORIA OFICIAL NÚM. 267" ] 
 },
 {
  "type": "Feature",
@@ -4766,7 +4807,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.344, 19.631 ] 
 },
-"properties": [ "941000", " 45.0", " 100", "MÓDULO ANEXO A LA PREPARATORIA OFICIAL NÚM. 148" ] 
+"properties": [ "941000", " 45", " 100", "MÓDULO ANEXO A LA PREPARATORIA OFICIAL NÚM. 148" ] 
 },
 {
  "type": "Feature",
@@ -4774,7 +4815,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.927, 19.381 ] 
 },
-"properties": [ "942000", " 45.0", "  23", "GRUPO ADSCRITO A LA PREPARATORIA OFICIAL NÚM. 16" ] 
+"properties": [ "942000", " 45", "  23", "GRUPO ADSCRITO A LA PREPARATORIA OFICIAL NÚM. 16" ] 
 },
 {
  "type": "Feature",
@@ -4790,7 +4831,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.95, 19.354 ] 
 },
-"properties": [ "944000", " 47.0", " 129", "PREPARATORIA OFICIAL NÚM. 274" ] 
+"properties": [ "944000", " 47", " 129", "PREPARATORIA OFICIAL NÚM. 274" ] 
 },
 {
  "type": "Feature",
@@ -4798,7 +4839,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.943, 19.293 ] 
 },
-"properties": [ "945000", " 50.0", "  71", "GRUPO ANEXO A LA PREPARATORIA OFICIAL NÚM. 54" ] 
+"properties": [ "945000", " 50", "  71", "GRUPO ANEXO A LA PREPARATORIA OFICIAL NÚM. 54" ] 
 },
 {
  "type": "Feature",
@@ -4814,7 +4855,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.013, 19.619 ] 
 },
-"properties": [ "947000", " 48.0", " 114", "MÓDULO ANEXO A LA PREPARATORIA OFICIAL NÚM. 257, LA GUADALUPANA" ] 
+"properties": [ "947000", " 48", " 114", "MÓDULO ANEXO A LA PREPARATORIA OFICIAL NÚM. 257, LA GUADALUPANA" ] 
 },
 {
  "type": "Feature",
@@ -4822,7 +4863,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.885, 19.328 ] 
 },
-"properties": [ "948000", " 50.0", "  43", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL IXTAPALUCA 56 II" ] 
+"properties": [ "948000", " 50", "  43", "COLEGIO DE BACHILLERES DEL ESTADO DE MÉXICO PLANTEL IXTAPALUCA 56 II" ] 
 },
 {
  "type": "Feature",
@@ -4830,7 +4871,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -98.917, 19.408 ] 
 },
-"properties": [ "949000", " 49.0", "  34", "MÓDULO ADSCRITO A LA PREPARATORIA OFICIAL NÚM. 265" ] 
+"properties": [ "949000", " 49", "  34", "MÓDULO ADSCRITO A LA PREPARATORIA OFICIAL NÚM. 265" ] 
 },
 {
  "type": "Feature",
@@ -4838,7 +4879,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.047, 19.623 ] 
 },
-"properties": [ "951000", " 59.0", "  59", "PREPARATORIA OFICIAL NÚM. 282" ] 
+"properties": [ "951000", " 59", "  59", "PREPARATORIA OFICIAL NÚM. 282" ] 
 },
 {
  "type": "Feature",
@@ -4854,7 +4895,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.001,  19.41 ] 
 },
-"properties": [ "953000", " 66.0", "  55", "PREPARATORIA OFICIAL NÚM. 288" ] 
+"properties": [ "953000", " 66", "  55", "PREPARATORIA OFICIAL NÚM. 288" ] 
 },
 {
  "type": "Feature",
@@ -4870,7 +4911,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.306, 19.636 ] 
 },
-"properties": [ "955000", " 43.0", "  54", "MÓDULO AZOTLAN, ADSCRITO A LA PREPARATORIA OFICIAL NÚM. 262" ] 
+"properties": [ "955000", " 43", "  54", "MÓDULO AZOTLAN, ADSCRITO A LA PREPARATORIA OFICIAL NÚM. 262" ] 
 },
 {
  "type": "Feature",
@@ -4878,7 +4919,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.121, 19.681 ] 
 },
-"properties": [ "957000", " 45.0", " 130", "MÓDULO ADSCRITO A LA PREPARATORIA OFICIAL NÚM. 181" ] 
+"properties": [ "957000", " 45", " 130", "MÓDULO ADSCRITO A LA PREPARATORIA OFICIAL NÚM. 181" ] 
 },
 {
  "type": "Feature",
@@ -4886,7 +4927,7 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.037, 19.474 ] 
 },
-"properties": [ "959000", " 52.0", "  55", "PREPARATORIA OFICIAL NÚM. 295" ] 
+"properties": [ "959000", " 52", "  55", "PREPARATORIA OFICIAL NÚM. 295" ] 
 },
 {
  "type": "Feature",
@@ -4894,9 +4935,14 @@ var getColor = function(value) {
  "type": "Point",
 "coordinates": [ -99.182, 19.595 ] 
 },
-"properties": [ "960000", " 49.0", "  55", "PREPARATORIA OFICIAL NÚM. 296" ] 
+"properties": [ "960000", " 49", "  55", "PREPARATORIA OFICIAL NÚM. 296" ] 
 } 
 ],
+"legend": {
+ "position": "topright",
+"colors": [ "#D73027", "#F46D43", "#FDAE61", "#FEE090", "#FFFFBF", "#E0F3F8", "#ABD9E9", "#74ADD1", "#4575B4" ],
+"labels":[ "41–49", "50–58", "59–68", "69–77", "78–86", "87–96", "97–105", "106–114" ]  
+},
 "id": "comipems.map" 
 }
   var map = L.map(spec.dom)
@@ -4927,11 +4973,11 @@ var getColor = function(value) {
         , 
          {
  "onEachFeature":  function(feature, layer){
-      layer.bindPopup('<b>'+feature.properties[3]+'</b><br>'+'median score:'+feature.properties[1])
+      layer.bindPopup('<table><thead><tr><th colspan="2"><b>'+feature.properties[3]+'<b></th></tr></thead><tr><td>Median Score:</td><td><b>'+feature.properties[1]+'</b></td></tr></table>')
     } ,
 "pointToLayer":  function(feature, latlng){
       return L.circleMarker(latlng, {
-        radius: scale(feature.properties[2]),
+        radius: scaleSize(feature.properties[2]),
         fillColor: getColor(feature.properties[1]),    
         color: '#000',
         weight: 1,
@@ -4940,7 +4986,38 @@ var getColor = function(value) {
     }  
 }
       ).addTo(map)
-    
+
+    var legend = L.control({position: "bottomright"});
+    legend.onAdd = function (map) {
+      var div = L.DomUtil.create('div', 'info legend'),
+          labels = spec.legend.labels,
+          colors = spec.legend.colors
+
+      // loop through our density intervals and generate a 
+      // label with a colored square for each interval
+      for (var i = 0; i < labels.length; i++) {
+          div.innerHTML += '<i style="background:' +  colors[i] + '"></i>' + 
+            labels[i] + "<br>"
+      }
+     return div;
+    };
+    legend.addTo(map); 
+
+
+var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+    this._div.innerHTML = '<h3><a href="http://blog.diegovalle.net/2013/07/the-best-high-schools-in-mexico-city.html">High School Entrace Exam Scores</a></h3>';
+};
+
+info.addTo(map);
    
 </script>
     
