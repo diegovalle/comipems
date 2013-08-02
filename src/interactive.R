@@ -23,7 +23,7 @@ leaflet$setView(c(19.45, -99.1), zoom = 11)
 ## and some css that's necessary
 leaflet$geoJson(toGeoJSON2(as.list(as.data.frame(t(na.omit(school_map)))), lon ="long", lat = "lat"),
              onEachFeature = "#! function(feature, layer){
-      layer.bindPopup('<table><thead><tr><th colspan="2"><b>'+feature.properties[3]+'<b></th></tr></thead><tr><td>Median Score:</td><td><b>'+feature.properties[1]+'</b></td></tr><tr><td>Number Admitted:</td><td><b>'+feature.properties[2]+'</b></td></tr></table>')
+      layer.bindPopup('<table><thead><tr><th><b>'+feature.properties[3]+'<b></th></tr></thead><tr><td>Median Score:</td><td><b>'+feature.properties[1]+'</b></td></tr><tr><td>Number Admitted:</td><td><b>'+feature.properties[2]+'</b></td></tr></table>')
     } !#",
              pointToLayer =  "#! function(feature, latlng){
       return L.circleMarker(latlng, {
