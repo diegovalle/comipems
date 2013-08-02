@@ -23,7 +23,7 @@ leaflet$setView(c(19.45, -99.1), zoom = 11)
 ## and some css that's necessary
 leaflet$geoJson(toGeoJSON2(as.list(as.data.frame(t(na.omit(school_map)))), lon ="long", lat = "lat"),
              onEachFeature = "#! function(feature, layer){
-      layer.bindPopup('<b>'+feature.properties[3]+'</b><br>'+'median score:'+feature.properties[1])
+      layer.bindPopup('<table><thead><tr><th colspan=2><b>'+feature.properties[3]+'<b></th></tr></thead><tr><td>Median Score:</td><td><b>'+feature.properties[1]+'</b></td></tr></table>')
     } !#",
              pointToLayer =  "#! function(feature, latlng){
       return L.circleMarker(latlng, {
@@ -37,7 +37,7 @@ leaflet$geoJson(toGeoJSON2(as.list(as.data.frame(t(na.omit(school_map)))), lon =
 
 
 leaflet$legend(position = "bottomright", color = brewer.pal(9, "RdYlBu"),
-               labels = sort(unique(cut(school_map$median_score, 8))))
+               labels = sort(unique(cut(school_map$median_score, 9))))
 leaflet
 ##leaflet$print("comipems.map")
 leaflet$save(file.path("html", "temp-map.html"), cdn = TRUE)
